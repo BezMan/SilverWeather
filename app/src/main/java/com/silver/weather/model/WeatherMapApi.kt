@@ -6,8 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.google.gson.Gson
-import com.silver.weather.Interfaces.HttpResponse
-import com.silver.weather.Interfaces.weatherByNameInterface
+import com.silver.weather.interfaces.IGetWeather
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -19,12 +18,15 @@ class WeatherMapApi(var activity: AppCompatActivity) {
     private val VERSION = "data/2.5/"
     private val API_ID = "&appid=a6fb62a4df6500bb3078d7e190bd637e"
 
-    fun getWeatherByName(cityName: String, unit: String, weatherByNameInterface: weatherByNameInterface) {
-//        val city = URLEncoder.encode(cityName, "UTF-8")
+    fun getWeatherByName(cityName: String, unit: String, IGetWeather: IGetWeather) {
         val method = "weather?q=$cityName"
         val url = "$URL_BASE$VERSION$method$API_ID$unit"
 
-        httpRequest(url, object : HttpResponse {
+        httpRequest(url, responseCallback(IGetWeather))
+    }
+
+    private fun responseCallback(IGetWeather: IGetWeather): HttpResponse {
+        return object : HttpResponse {
             override fun httpResponseSuccess(response: String) {
                 val gson = Gson()
                 val objectResonse = gson.fromJson(response, openWeatherMapAPIName::class.java)
@@ -36,13 +38,13 @@ class WeatherMapApi(var activity: AppCompatActivity) {
                     val temperature = objectResonse.main?.temp!!
                     val tempMin = objectResonse.main?.temp_min!!
                     val tempMax = objectResonse.main?.temp_max!!
-                    weatherByNameInterface.getWeatherByName(nameCity, urlImage, status, description, temperature, tempMin, tempMax)
+                    IGetWeather.getWeatherByName(nameCity, urlImage, status, description, temperature, tempMin, tempMax)
                 } else {
                     Toast.makeText(activity.applicationContext, "Could not get Weather data", Toast.LENGTH_SHORT).show()
                     activity.finish()
                 }
             }
-        })
+        }
     }
 
 
@@ -78,6 +80,11 @@ class WeatherMapApi(var activity: AppCompatActivity) {
         } else {
             Toast.makeText(activity.applicationContext, "No network available", Toast.LENGTH_SHORT).show()
         }
+    }
+
+
+    interface HttpResponse {
+        fun httpResponseSuccess(response: String)
     }
 
 }

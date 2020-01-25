@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.silver.weather.Interfaces.ClickListener
 import com.silver.weather.R
+import com.silver.weather.interfaces.IClickListener
 import com.silver.weather.model.City
 import kotlinx.android.synthetic.main.list_item_city.view.*
 
-class CityListAdapter(private var context: Context, itemList: ArrayList<City>, private var clickListener: ClickListener) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
+class CityListAdapter(private var context: Context, itemList: ArrayList<City>, private var IClickListener: IClickListener) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
     private var filteredList: ArrayList<City>? = null
     private var fullList: ArrayList<City>
 
@@ -23,7 +23,7 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<City>, p
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_item_city, p0, false)
-        return ViewHolder(view, clickListener)
+        return ViewHolder(view, IClickListener)
     }
 
     fun filter(query: String): ArrayList<City>? {
@@ -55,10 +55,10 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<City>, p
         return filteredList!!.count()
     }
 
-    class ViewHolder(view: View, clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    class ViewHolder(view: View, IClickListener: IClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
         var tvCity: TextView = view.tvCity
         var tvCountry: TextView = view.tvCountry
-        var clickListener: ClickListener? = clickListener
+        var IClickListener: IClickListener? = IClickListener
         var cardView: CardView = view.cardView
 
         init {
@@ -66,7 +66,7 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<City>, p
         }
 
         override fun onClick(p0: View?) {
-            clickListener?.onClick(p0!!, adapterPosition)
+            IClickListener?.onClick(p0!!, adapterPosition)
         }
     }
 }

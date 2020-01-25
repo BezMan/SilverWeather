@@ -4,22 +4,21 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.silver.weather.Interfaces.Search
 import com.silver.weather.R
 import com.silver.weather.view.fragments.ListFragment
 import kotlinx.android.synthetic.main.activity_choose.*
 
-class ChooseActivity : AppCompatActivity(), Search {
-
-    override fun sendData(text: String, submit: Boolean) {
-        ListFragment.receiveData(text, submit)
-    }
+class ChooseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose)
         actionBarChoose.setTitle(R.string.app_name)
         setSupportActionBar(actionBarChoose)
+    }
+
+    fun sendData(text: String, submit: Boolean) {
+        ListFragment.receiveData(text, submit)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

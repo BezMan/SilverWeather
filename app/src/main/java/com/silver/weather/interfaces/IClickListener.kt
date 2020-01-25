@@ -1,7 +1,7 @@
-package com.silver.weather.Interfaces
+package com.silver.weather.interfaces
 
 import android.view.View
 
-interface ClickListener {
+interface IClickListener {
     fun onClick(view: View, index: Int)
 }

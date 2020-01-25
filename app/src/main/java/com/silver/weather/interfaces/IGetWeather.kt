@@ -1,6 +1,6 @@
-package com.silver.weather.Interfaces
+package com.silver.weather.interfaces
 
 
-interface weatherByNameInterface {
+interface IGetWeather {
     fun getWeatherByName(nameCity: String, urlImage: String, status: String, description: String, temperature: String, tempMin: String, tempMax: String)
 }

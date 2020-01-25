@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.silver.weather.Interfaces.ClickListener
 import com.silver.weather.R
+import com.silver.weather.interfaces.IClickListener
 import com.silver.weather.model.City
 import com.silver.weather.view.activities.WeatherActivity
 import com.silver.weather.view.adapters.CityListAdapter
@@ -58,14 +58,18 @@ class ListFragment : Fragment() {
         layoutManager = LinearLayoutManager(fragmentLayout?.context)
         recyclerViewCities?.layoutManager = layoutManager
 
-        citiesListAdapter = CityListAdapter(fragmentLayout?.context!!, listCities!!, object : ClickListener {
+        citiesListAdapter = CityListAdapter(fragmentLayout?.context!!, listCities!!, clickListenerCallback())
+        recyclerViewCities?.adapter = citiesListAdapter
+    }
+
+    private fun clickListenerCallback(): IClickListener {
+        return object : IClickListener {
             override fun onClick(view: View, index: Int) {
                 val index = listCities?.get(index)
                 val cityName = index?.nameCity!!
                 goWeatherResult(cityName, fragmentLayout!!.context)
             }
-        })
-        recyclerViewCities?.adapter = citiesListAdapter
+        }
     }
 
     private fun fetchCitiesList() {
