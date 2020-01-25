@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.silver.weather.Fragmets.ListFragment
 import com.silver.weather.Interfaces.Search
 import com.silver.weather.R
 import kotlinx.android.synthetic.main.activity_choose.*
@@ -11,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_choose.*
 class ChooseActivity : AppCompatActivity(), Search {
 
     override fun sendData(text: String, submit: Boolean) {
-        com.silver.weather.Fragmets.ListFragment.receiveData(text, submit)
+        ListFragment.receiveData(text, submit)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
