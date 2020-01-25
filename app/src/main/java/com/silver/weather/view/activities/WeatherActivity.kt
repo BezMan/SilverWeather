@@ -45,18 +45,17 @@ class WeatherActivity : AppCompatActivity() {
 
     private fun networkCallback(unit: String): IGetWeather {
         return object : IGetWeather {
-            override fun getWeatherByName(nameCity: String, urlImage: String, status: String, description: String, temperature: String, tempMin: String, tempMax: String) {
+            override fun getWeatherByName(nameCity: String, urlImage: String, description: String, tempMin: String, tempMax: String) {
                 this@WeatherActivity.runOnUiThread {
-                    tvDescription?.text = description
-                    tvCity?.text = nameCity
+
                     val m = if (unit.isNotEmpty()) "°C" else "°F"
 
-                    tvTemperature?.text = "Temperature: $temperature$m"
+                    tvDescription?.text = description
+                    tvCity?.text = nameCity
                     tvTempMax?.text = "Temp max: $tempMax$m"
                     tvTempMin?.text = "Temp min: $tempMin$m"
-
-                    tvStatus?.text = status
                     tvDescription?.text = "Description: $description"
+
                     Log.d("IMAGE", urlImage)
                     Glide.with(this@WeatherActivity).load(urlImage).into(iconImg)
                 }

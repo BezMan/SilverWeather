@@ -18,27 +18,25 @@ class WeatherMapApi(var activity: AppCompatActivity) {
     private val VERSION = "data/2.5/"
     private val API_ID = "&appid=a6fb62a4df6500bb3078d7e190bd637e"
 
-    fun getWeatherByName(cityName: String, unit: String, IGetWeather: IGetWeather) {
+    fun getWeatherByName(cityName: String, unit: String, weather: IGetWeather) {
         val method = "weather?q=$cityName"
         val url = "$URL_BASE$VERSION$method$API_ID$unit"
 
-        httpRequest(url, responseCallback(IGetWeather))
+        httpRequest(url, responseCallback(weather))
     }
 
-    private fun responseCallback(IGetWeather: IGetWeather): HttpResponse {
+    private fun responseCallback(weather: IGetWeather): HttpResponse {
         return object : HttpResponse {
             override fun httpResponseSuccess(response: String) {
                 val gson = Gson()
                 val objectResonse = gson.fromJson(response, CityWeather::class.java)
-                if (!objectResonse.name.isNullOrEmpty()) {
+                if (objectResonse.name.isNotEmpty()) {
                     val nameCity = objectResonse.name
-                    val urlImage = makeIconURL(objectResonse.weather.get(0).icon)
-                    val status = objectResonse.weather.get(0).main
-                    val description = objectResonse.weather.get(0).description
-                    val temperature = objectResonse.main.temp
-                    val tempMin = objectResonse.main.temp_min
-                    val tempMax = objectResonse.main.temp_max
-                    IGetWeather.getWeatherByName(nameCity, urlImage, status, description, temperature.toString(), tempMin.toString(), tempMax.toString())
+                    val urlImage = makeIconURL(objectResonse.weather[0].icon)
+                    val description = objectResonse.weather[0].description
+                    val tempMin = objectResonse.main.temp_min.toString()
+                    val tempMax = objectResonse.main.temp_max.toString()
+                    weather.getWeatherByName(nameCity, urlImage, description, tempMin, tempMax)
                 } else {
                     Toast.makeText(activity.applicationContext, "Could not get Weather data", Toast.LENGTH_SHORT).show()
                     activity.finish()
