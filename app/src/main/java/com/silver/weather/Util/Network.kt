@@ -12,13 +12,13 @@ import okhttp3.Response
 import java.io.IOException
 
 class Network(var activity: AppCompatActivity) {
-    fun verifyAvailableNetwork(): Boolean {
+    private fun verifyAvailableNetwork(): Boolean {
         val connectivityManager = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnected
     }
 
-    fun httpRequest(context: Context, url: String, httpResponse: HttpResponse) {
+    fun httpRequest(url: String, httpResponse: HttpResponse) {
         Log.d("URL_REQUEST", url)
         if (verifyAvailableNetwork()) {
             val client = OkHttpClient()

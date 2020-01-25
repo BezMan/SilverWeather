@@ -2,15 +2,13 @@ package com.silver.weather.Activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.silver.weather.Interfaces.Search
 import com.silver.weather.R
+import kotlinx.android.synthetic.main.activity_choose.*
 
 class ChooseActivity : AppCompatActivity(), Search {
-    var toolbar: Toolbar? = null
 
     override fun sendData(text: String, submit: Boolean) {
         com.silver.weather.Fragmets.ListFragment.receiveData(text, submit)
@@ -19,21 +17,16 @@ class ChooseActivity : AppCompatActivity(), Search {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose)
-        toolbar = findViewById(R.id.actionBarChoose)
-        toolbar?.setTitle(R.string.app_name)
-        setSupportActionBar(toolbar)
+        actionBarChoose.setTitle(R.string.app_name)
+        setSupportActionBar(actionBarChoose)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_choose, menu)
 
         val itemSearch = menu?.findItem(R.id.icSearch)
-        var viewSearch = itemSearch?.actionView as android.support.v7.widget.SearchView
+        val viewSearch = itemSearch?.actionView as android.support.v7.widget.SearchView
         viewSearch.queryHint = "Write city..."
-
-        viewSearch.setOnQueryTextFocusChangeListener { view, b ->
-            Toast.makeText(applicationContext, "Submit to request, write to filter", Toast.LENGTH_LONG).show()
-        }
 
         viewSearch.setOnQueryTextListener(object : android.support.v7.widget.SearchView.OnQueryTextListener {
 

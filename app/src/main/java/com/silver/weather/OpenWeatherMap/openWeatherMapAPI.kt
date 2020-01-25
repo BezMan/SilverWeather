@@ -37,7 +37,7 @@ class Weather(main: String, description: String, icon: String) {
 }
 
 class openWeatherMapAPILocation(list: ArrayList<List>) {
-    var list: ArrayList<List>? = null
+    private var list: ArrayList<List>? = null
 
     init {
         this.list = list
@@ -46,7 +46,7 @@ class openWeatherMapAPILocation(list: ArrayList<List>) {
 
 class List(name: String, main: Main, weather: ArrayList<Weather>) {
     var name: String? = null
-    var main: Main? = null
+    private var main: Main? = null
     var weather: ArrayList<Weather>? = null
 
     init {

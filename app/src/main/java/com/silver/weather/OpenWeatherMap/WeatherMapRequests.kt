@@ -8,20 +8,22 @@ import com.silver.weather.Interfaces.weatherByNameInterface
 import com.silver.weather.Util.Network
 import java.net.URLEncoder
 
-class openWeatherMap(var activity: AppCompatActivity) {
+class WeatherMapRequests(var activity: AppCompatActivity) {
     private val URL_BASE = "http://api.openweathermap.org/"
     private val VERSION = "2.5/"
     private val API_ID = "&appid=a6fb62a4df6500bb3078d7e190bd637e"
+
     fun getWeatherByName(name: String, unit: String, weatherByNameInterface: weatherByNameInterface) {
         val network = Network(activity)
         val name = URLEncoder.encode(name, "UTF-8")
         val section = "data/"
         val method = "weather?q=$name"
-        var url = "$URL_BASE$section$VERSION$method$API_ID$unit"
-        network.httpRequest(activity.applicationContext, url, object : HttpResponse {
+        val url = "$URL_BASE$section$VERSION$method$API_ID$unit"
+
+        network.httpRequest(url, object : HttpResponse {
             override fun httpResponseSuccess(response: String) {
-                var gson = Gson()
-                var objectResonse = gson.fromJson(response, openWeatherMapAPIName::class.java)
+                val gson = Gson()
+                val objectResonse = gson.fromJson(response, openWeatherMapAPIName::class.java)
                 if (!objectResonse.name.isNullOrEmpty()) {
                     val nameCity = objectResonse.name!!
                     val urlImage = makeIconURL(objectResonse.weather?.get(0)?.icon!!)

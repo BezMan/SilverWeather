@@ -6,14 +6,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.silver.weather.Interfaces.ClickListener
 import com.silver.weather.R
+import kotlinx.android.synthetic.main.list_item_city.view.*
 
-class CityAdapter(var context: Context, items: ArrayList<City>, var clickListener: ClickListener) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
-    var items: ArrayList<City>? = null
-    var copyItem: ArrayList<City>? = null
+class CityAdapter(private var context: Context, items: ArrayList<City>, private var clickListener: ClickListener) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
+    private var items: ArrayList<City>? = null
+    private var copyItem: ArrayList<City>? = null
 
     init {
         this.items = items
@@ -21,9 +21,8 @@ class CityAdapter(var context: Context, items: ArrayList<City>, var clickListene
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.template, p0, false)
-        val viewHolder = ViewHolder(view, clickListener)
-        return viewHolder
+        val view = LayoutInflater.from(context).inflate(R.layout.list_item_city, p0, false)
+        return ViewHolder(view, clickListener)
     }
 
     fun filter(query: String) {
@@ -47,8 +46,8 @@ class CityAdapter(var context: Context, items: ArrayList<City>, var clickListene
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.tvCity?.text = items?.get(position)?.nameCity
-        viewHolder.tvCountry?.text = items?.get(position)?.nameCountry
+        viewHolder.tvCity.text = items?.get(position)?.nameCity
+        viewHolder.tvCountry.text = items?.get(position)?.nameCountry
 
     }
 
@@ -57,19 +56,13 @@ class CityAdapter(var context: Context, items: ArrayList<City>, var clickListene
     }
 
     class ViewHolder(view: View, clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        var tvCity: TextView? = null
-        var tvCountry: TextView? = null
-        var layout: LinearLayout? = null
-        var clickListener: ClickListener? = null
-        var cardView: CardView? = null
+        var tvCity: TextView = view.tvCity
+        var tvCountry: TextView = view.tvCountry
+        var clickListener: ClickListener? = clickListener
+        var cardView: CardView = view.cardView
 
         init {
-            tvCity = view.findViewById(R.id.tvCity)
-            tvCountry = view.findViewById(R.id.tvCountry)
-            layout = view.findViewById(R.id.LayoutContent)
-            cardView = view.findViewById(R.id.cardView)
-            this.clickListener = clickListener
-            cardView!!.setOnClickListener(this)
+            cardView.setOnClickListener(this)
         }
 
         override fun onClick(p0: View?) {

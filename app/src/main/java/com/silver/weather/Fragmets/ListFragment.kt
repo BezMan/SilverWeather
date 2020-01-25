@@ -20,15 +20,15 @@ import com.silver.weather.R
 class ListFragment : Fragment() {
     var listCities: ArrayList<City>? = null
 
-    var listItems: RecyclerView? = null
-    var layoutManager: RecyclerView.LayoutManager? = null
+    private var recyclerViewCities: RecyclerView? = null
+    private var layoutManager: RecyclerView.LayoutManager? = null
 
     companion object {
-        var view0: View? = null
+        var layout: View? = null
         var citiesAdapter: CityAdapter? = null
         fun receiveData(query: String, submit: Boolean) {
             if (submit) {
-                goWeatherResult(query, view0?.context!!)
+                goWeatherResult(query, layout?.context!!)
             } else {
                 citiesAdapter?.filter(query)
             }
@@ -43,24 +43,24 @@ class ListFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        view0 = inflater.inflate(R.layout.fragment_list, container, false)
+        layout = inflater.inflate(R.layout.fragment_list, container, false)
         loadData()
         configureRecyclerView()
 
-        return view0
+        return layout
     }
 
     private fun configureRecyclerView() {
-        listItems = view0?.findViewById(R.id.listCities)
-        listItems?.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(view0?.context)
-        listItems?.layoutManager = layoutManager
-        citiesAdapter = CityAdapter(view0?.context!!, listCities!!, object : ClickListener {
+        recyclerViewCities = layout?.findViewById(R.id.recyclerViewCities)
+        recyclerViewCities?.setHasFixedSize(true)
+        layoutManager = LinearLayoutManager(layout?.context)
+        recyclerViewCities?.layoutManager = layoutManager
+        citiesAdapter = CityAdapter(layout?.context!!, listCities!!, object : ClickListener {
             override fun onClick(view: View, index: Int) {
-                goWeatherResult(listCities?.get(index)?.nameCity!!, view0!!.context)
+                goWeatherResult(listCities?.get(index)?.nameCity!!, layout!!.context)
             }
         })
-        listItems?.adapter = citiesAdapter
+        recyclerViewCities?.adapter = citiesAdapter
     }
 
     private fun loadData() {
