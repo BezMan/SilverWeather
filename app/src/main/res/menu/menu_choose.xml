@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/icSearch"
+        android:icon="@drawable/icon_search"
+        android:title="Search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
+    <item
+        android:id="@+id/icMap"
+        android:icon="@drawable/icon_map"
+        android:title="Map"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/icLocation"
+        android:icon="@drawable/icon_location"
+        android:title="My location"
+        app:showAsAction="ifRoom" />
+</menu>
