@@ -11,13 +11,13 @@ import com.silver.weather.Interfaces.ClickListener
 import com.silver.weather.R
 import kotlinx.android.synthetic.main.list_item_city.view.*
 
-class CityAdapter(private var context: Context, items: ArrayList<City>, private var clickListener: ClickListener) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
-    private var items: ArrayList<City>? = null
-    private var copyItem: ArrayList<City>? = null
+class CityAdapter(private var context: Context, itemList: ArrayList<City>, private var clickListener: ClickListener) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
+    private var filteredList: ArrayList<City>? = null
+    private var fullList: ArrayList<City>
 
     init {
-        this.items = items
-        this.copyItem = items
+        this.filteredList = itemList
+        this.fullList = itemList
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -26,18 +26,18 @@ class CityAdapter(private var context: Context, items: ArrayList<City>, private 
     }
 
     fun filter(query: String) {
-        if (query == null || query == "") {
-            items = ArrayList(copyItem)
+        if (query == "") {
+            filteredList = ArrayList(fullList)
             notifyDataSetChanged()
             return
         } else {
-            items?.clear()
+            filteredList?.clear()
             var search = query
             search = search.toLowerCase()
-            for (item in copyItem!!) {
-                val nombre = item.nameCity?.toLowerCase()
-                if (nombre!!.contains(search)) {
-                    items?.add(item)
+            for (item in fullList) {
+                val cityName = item.nameCity?.toLowerCase()
+                if (cityName!!.contains(search)) {
+                    filteredList?.add(item)
                 }
             }
             notifyDataSetChanged()
@@ -46,13 +46,13 @@ class CityAdapter(private var context: Context, items: ArrayList<City>, private 
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.tvCity.text = items?.get(position)?.nameCity
-        viewHolder.tvCountry.text = items?.get(position)?.nameCountry
+        viewHolder.tvCity.text = filteredList?.get(position)?.nameCity
+        viewHolder.tvCountry.text = filteredList?.get(position)?.nameCountry
 
     }
 
     override fun getItemCount(): Int {
-        return items!!.count()
+        return filteredList!!.count()
     }
 
     class ViewHolder(view: View, clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {

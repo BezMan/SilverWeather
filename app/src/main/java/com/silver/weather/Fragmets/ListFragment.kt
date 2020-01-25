@@ -58,7 +58,9 @@ class ListFragment : Fragment() {
         recyclerViewCities?.layoutManager = layoutManager
         citiesAdapter = CityAdapter(fragmentLayout?.context!!, listCities!!, object : ClickListener {
             override fun onClick(view: View, index: Int) {
-                goWeatherResult(listCities?.get(index)?.nameCity!!, fragmentLayout!!.context)
+                val index = listCities?.get(index)
+                val cityName = index?.nameCity!!
+                goWeatherResult(cityName, fragmentLayout!!.context)
             }
         })
         recyclerViewCities?.adapter = citiesAdapter
