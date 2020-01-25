@@ -1,4 +1,4 @@
-package com.silver.weather.OpenWeatherMap
+package com.silver.weather.model
 
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -9,6 +9,7 @@ import com.silver.weather.Util.Network
 import java.net.URLEncoder
 
 class WeatherMapRequests(var activity: AppCompatActivity) {
+
     private val URL_BASE = "http://api.openweathermap.org/"
     private val VERSION = "2.5/"
     private val API_ID = "&appid=a6fb62a4df6500bb3078d7e190bd637e"

@@ -12,6 +12,7 @@ import okhttp3.Response
 import java.io.IOException
 
 class Network(var activity: AppCompatActivity) {
+
     private fun verifyAvailableNetwork(): Boolean {
         val connectivityManager = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
@@ -23,7 +24,9 @@ class Network(var activity: AppCompatActivity) {
         if (verifyAvailableNetwork()) {
             val client = OkHttpClient()
             val request = okhttp3.Request.Builder().url(url).build()
+
             client.newCall(request).enqueue(object : okhttp3.Callback {
+
                 override fun onResponse(call: Call?, response: Response?) {
                     Log.d("HTTP_REQUEST", response?.body().toString())
                     httpResponse.httpResponseSuccess(response?.body()?.string()!!)

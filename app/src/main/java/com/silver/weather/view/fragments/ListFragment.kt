@@ -1,4 +1,4 @@
-package com.silver.weather.Fragmets
+package com.silver.weather.view.fragments
 
 
 import android.content.Context
@@ -10,11 +10,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.silver.weather.Activities.WeatherActivity
-import com.silver.weather.Adapters.City
-import com.silver.weather.Adapters.CityAdapter
 import com.silver.weather.Interfaces.ClickListener
 import com.silver.weather.R
+import com.silver.weather.model.City
+import com.silver.weather.view.activities.WeatherActivity
+import com.silver.weather.view.adapters.CityListAdapter
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 
@@ -23,7 +23,7 @@ class ListFragment : Fragment() {
     companion object {
         private var listCities: ArrayList<City>? = null
         private var recyclerViewCities: RecyclerView? = null
-        private var citiesAdapter: CityAdapter? = null
+        private var citiesListAdapter: CityListAdapter? = null
 
         private var layoutManager: RecyclerView.LayoutManager? = null
         private var fragmentLayout: View? = null
@@ -32,7 +32,7 @@ class ListFragment : Fragment() {
             if (submit) {
                 goWeatherResult(query, fragmentLayout?.context!!)
             } else {
-                listCities = citiesAdapter?.filter(query)
+                listCities = citiesListAdapter?.filter(query)
             }
         }
 
@@ -58,14 +58,14 @@ class ListFragment : Fragment() {
         layoutManager = LinearLayoutManager(fragmentLayout?.context)
         recyclerViewCities?.layoutManager = layoutManager
 
-        citiesAdapter = CityAdapter(fragmentLayout?.context!!, listCities!!, object : ClickListener {
+        citiesListAdapter = CityListAdapter(fragmentLayout?.context!!, listCities!!, object : ClickListener {
             override fun onClick(view: View, index: Int) {
                 val index = listCities?.get(index)
                 val cityName = index?.nameCity!!
                 goWeatherResult(cityName, fragmentLayout!!.context)
             }
         })
-        recyclerViewCities?.adapter = citiesAdapter
+        recyclerViewCities?.adapter = citiesListAdapter
     }
 
     private fun fetchCitiesList() {

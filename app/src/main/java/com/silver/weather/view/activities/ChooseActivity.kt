@@ -1,12 +1,12 @@
-package com.silver.weather.Activities
+package com.silver.weather.view.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.silver.weather.Fragmets.ListFragment
 import com.silver.weather.Interfaces.Search
 import com.silver.weather.R
+import com.silver.weather.view.fragments.ListFragment
 import kotlinx.android.synthetic.main.activity_choose.*
 
 class ChooseActivity : AppCompatActivity(), Search {

@@ -1,4 +1,4 @@
-package com.silver.weather.OpenWeatherMap
+package com.silver.weather.model
 
 class openWeatherMapAPIName(weather: ArrayList<Weather>, main: Main, name: String) {
     var name: String? = null

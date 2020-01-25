@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context=".Activities.WeatherActivity">
+    tools:context=".view.activities.WeatherActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/actionBarWeather"

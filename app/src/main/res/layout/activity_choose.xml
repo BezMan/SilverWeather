@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.ChooseActivity">
+    tools:context=".view.activities.ChooseActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/actionBarChoose"
@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.silver.weather.Fragmets.ListFragment"
+        android:name="com.silver.weather.view.fragments.ListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

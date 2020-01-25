@@ -1,4 +1,4 @@
-package com.silver.weather.Activities
+package com.silver.weather.view.activities
 
 
 import android.os.Bundle
@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.bumptech.glide.Glide
 import com.silver.weather.Interfaces.weatherByNameInterface
-import com.silver.weather.OpenWeatherMap.WeatherMapRequests
 import com.silver.weather.R
+import com.silver.weather.model.WeatherMapRequests
 import kotlinx.android.synthetic.main.activity_weather.*
 
 

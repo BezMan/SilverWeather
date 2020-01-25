@@ -1,4 +1,4 @@
-package com.silver.weather.Adapters
+package com.silver.weather.view.adapters
 
 import android.content.Context
 import android.support.v7.widget.CardView
@@ -9,9 +9,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.silver.weather.Interfaces.ClickListener
 import com.silver.weather.R
+import com.silver.weather.model.City
 import kotlinx.android.synthetic.main.list_item_city.view.*
 
-class CityAdapter(private var context: Context, itemList: ArrayList<City>, private var clickListener: ClickListener) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
+class CityListAdapter(private var context: Context, itemList: ArrayList<City>, private var clickListener: ClickListener) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
     private var filteredList: ArrayList<City>? = null
     private var fullList: ArrayList<City>
 

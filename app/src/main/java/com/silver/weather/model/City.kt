@@ -1,4 +1,4 @@
-package com.silver.weather.Adapters
+package com.silver.weather.model
 
 class City(nameCity: String, nameCountry: String) {
     var nameCity: String? = null
