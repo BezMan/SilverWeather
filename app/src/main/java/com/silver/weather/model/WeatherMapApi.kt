@@ -29,14 +29,14 @@ class WeatherMapApi(var activity: AppCompatActivity) {
         return object : HttpResponse {
             override fun httpResponseSuccess(response: String) {
                 val gson = Gson()
-                val objectResonse = gson.fromJson(response, CityWeather::class.java)
-                if (objectResonse.name.isNotEmpty()) {
-                    val nameCity = objectResonse.name
-                    val urlImage = makeIconURL(objectResonse.weather[0].icon)
-                    val description = objectResonse.weather[0].description
-                    val tempMin = objectResonse.main.temp_min.toString()
-                    val tempMax = objectResonse.main.temp_max.toString()
-                    weather.getWeatherByName(nameCity, urlImage, description, tempMin, tempMax)
+                val cityData = gson.fromJson(response, CityWeather::class.java)
+                if (cityData.name.isNotEmpty()) {
+                    val cityObj = CityObj(cityData.name
+                            , makeIconURL(cityData.weather[0].icon)
+                            , cityData.weather[0].description
+                            , cityData.main.temp_min.toString()
+                            , cityData.main.temp_max.toString())
+                    weather.getWeatherByName(cityObj)
                 } else {
                     Toast.makeText(activity.applicationContext, "Could not get Weather data", Toast.LENGTH_SHORT).show()
                     activity.finish()

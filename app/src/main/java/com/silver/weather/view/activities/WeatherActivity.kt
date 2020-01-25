@@ -3,10 +3,10 @@ package com.silver.weather.view.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.bumptech.glide.Glide
 import com.silver.weather.R
 import com.silver.weather.interfaces.IGetWeather
+import com.silver.weather.model.CityObj
 import com.silver.weather.model.WeatherMapApi
 import kotlinx.android.synthetic.main.activity_weather.*
 
@@ -45,19 +45,17 @@ class WeatherActivity : AppCompatActivity() {
 
     private fun networkCallback(unit: String): IGetWeather {
         return object : IGetWeather {
-            override fun getWeatherByName(nameCity: String, urlImage: String, description: String, tempMin: String, tempMax: String) {
+            override fun getWeatherByName(cityObj: CityObj) {
                 this@WeatherActivity.runOnUiThread {
 
                     val m = if (unit.isNotEmpty()) "°C" else "°F"
 
-                    tvDescription?.text = description
                     tvCity?.text = nameCity
-                    tvTempMax?.text = "Temp max: $tempMax$m"
-                    tvTempMin?.text = "Temp min: $tempMin$m"
-                    tvDescription?.text = "Description: $description"
+                    tvTempMax?.text = "Temp max: ${cityObj.tempMax}$m"
+                    tvTempMin?.text = "Temp min: ${cityObj.tempMin}$m"
+                    tvDescription?.text = "Description: ${cityObj.description}"
 
-                    Log.d("IMAGE", urlImage)
-                    Glide.with(this@WeatherActivity).load(urlImage).into(iconImg)
+                    Glide.with(this@WeatherActivity).load(cityObj.urlImage).into(iconImg)
                 }
             }
         }

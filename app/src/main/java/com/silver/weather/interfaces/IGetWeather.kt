@@ -1,6 +1,8 @@
 package com.silver.weather.interfaces
 
+import com.silver.weather.model.CityObj
+
 
 interface IGetWeather {
-    fun getWeatherByName(nameCity: String, urlImage: String, description: String, tempMin: String, tempMax: String)
+    fun getWeatherByName(cityObj: CityObj)
 }
