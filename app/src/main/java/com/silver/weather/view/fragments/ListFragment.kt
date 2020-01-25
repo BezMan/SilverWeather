@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.silver.weather.R
 import com.silver.weather.interfaces.IClickListener
-import com.silver.weather.model.City
 import com.silver.weather.view.activities.WeatherActivity
 import com.silver.weather.view.adapters.CityListAdapter
 import kotlinx.android.synthetic.main.fragment_list.view.*
@@ -21,9 +20,9 @@ import kotlinx.android.synthetic.main.fragment_list.view.*
 class ListFragment : Fragment() {
 
     companion object {
-        private var listCities: ArrayList<City>? = null
+        private lateinit var listCities: ArrayList<String>
         private var recyclerViewCities: RecyclerView? = null
-        private var citiesListAdapter: CityListAdapter? = null
+        private lateinit var citiesListAdapter: CityListAdapter
 
         private var layoutManager: RecyclerView.LayoutManager? = null
         private var fragmentLayout: View? = null
@@ -32,7 +31,7 @@ class ListFragment : Fragment() {
             if (submit) {
                 goWeatherResult(query, fragmentLayout?.context!!)
             } else {
-                listCities = citiesListAdapter?.filter(query)
+                listCities = citiesListAdapter.filter(query)
             }
         }
 
@@ -58,15 +57,15 @@ class ListFragment : Fragment() {
         layoutManager = LinearLayoutManager(fragmentLayout?.context)
         recyclerViewCities?.layoutManager = layoutManager
 
-        citiesListAdapter = CityListAdapter(fragmentLayout?.context!!, listCities!!, clickListenerCallback())
+        citiesListAdapter = CityListAdapter(fragmentLayout?.context!!, listCities, clickListenerCallback())
         recyclerViewCities?.adapter = citiesListAdapter
     }
 
     private fun clickListenerCallback(): IClickListener {
         return object : IClickListener {
             override fun onClick(view: View, index: Int) {
-                val index = listCities?.get(index)
-                val cityName = index?.nameCity!!
+                val cityName = listCities.get(index)
+//                val cityName = index?.nameCity!!
                 goWeatherResult(cityName, fragmentLayout!!.context)
             }
         }
@@ -76,7 +75,7 @@ class ListFragment : Fragment() {
         listCities = ArrayList()
         val cities = resources.getStringArray(R.array.cityStrArray)
         for (cityName in cities) {
-            listCities?.add(City(cityName, "sub"))
+            listCities.add(cityName)
         }
     }
 
