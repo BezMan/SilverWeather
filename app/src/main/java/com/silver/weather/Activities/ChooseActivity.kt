@@ -1,23 +1,17 @@
 package com.silver.weather.Activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import com.google.android.gms.location.LocationResult
 import com.silver.weather.Interfaces.Search
-import com.silver.weather.Interfaces.locationListener
 import com.silver.weather.R
-import com.silver.weather.Util.Location
 
 class ChooseActivity : AppCompatActivity(), Search {
-    var location: Location? = null
-    var lat = ""
-    var lng = ""
     var toolbar: Toolbar? = null
+
     override fun sendData(text: String, submit: Boolean) {
         com.silver.weather.Fragmets.ListFragment.receiveData(text, submit)
     }
@@ -28,13 +22,6 @@ class ChooseActivity : AppCompatActivity(), Search {
         toolbar = findViewById(R.id.actionBarChoose)
         toolbar?.setTitle(R.string.app_name)
         setSupportActionBar(toolbar)
-        location = Location(this, object : locationListener {
-            override fun locationResponse(locationResult: LocationResult) {
-                lat = locationResult.lastLocation.latitude.toString()
-                lng = locationResult.lastLocation.longitude.toString()
-                location?.stopUpdateLocation()
-            }
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,38 +55,25 @@ class ChooseActivity : AppCompatActivity(), Search {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.icMap -> {
-                val intent = Intent(this, MapsActivity::class.java)
-                startActivity(intent)
-                return true
-            }
-            R.id.icLocation -> {
-                if (!lat.isNullOrEmpty() && !lng.isNullOrEmpty()) {
-                    val intent = Intent(applicationContext, WeatherActivity::class.java)
-                    intent.putExtra("LAT", lat)
-                    intent.putExtra("LON", lng)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(applicationContext, "Without location", Toast.LENGTH_SHORT).show()
-                }
-
-                return true
-            }
+//            R.id.icMap -> {
+//                val intent = Intent(this, MapsActivity::class.java)
+//                startActivity(intent)
+//                return true
+//            }
+//            R.id.icLocation -> {
+//                if (!lat.isNullOrEmpty() && !lng.isNullOrEmpty()) {
+//                    val intent = Intent(applicationContext, WeatherActivity::class.java)
+//                    intent.putExtra("LAT", lat)
+//                    intent.putExtra("LON", lng)
+//                    startActivity(intent)
+//                } else {
+//                    Toast.makeText(applicationContext, "Without location", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                return true
+//            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        location?.inicializeLocation()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        location?.stopUpdateLocation()
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        location?.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
 }

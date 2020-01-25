@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.google.gson.Gson
 import com.silver.weather.Interfaces.HttpResponse
-import com.silver.weather.Interfaces.weatherByLocationInterface
 import com.silver.weather.Interfaces.weatherByNameInterface
 import com.silver.weather.Util.Network
 import java.net.URLEncoder
@@ -40,20 +39,6 @@ class openWeatherMap(var activity: AppCompatActivity) {
         })
     }
 
-    fun getWeatherByLocation(lat: String, lon: String, weatherByLocationInterface: weatherByLocationInterface) {
-        val network = Network(activity)
-        val section = "data/"
-        val method = "find?"
-        val args = "lat=$lat&lon=$lon"
-        val url = "$URL_BASE$section$VERSION$method$args$API_ID"
-        network.httpRequest(activity.applicationContext, url, object : HttpResponse {
-            override fun httpResponseSuccess(response: String) {
-                var gson = Gson()
-                var objectResonse = gson.fromJson(response, openWeatherMapAPILocation::class.java)
-                weatherByLocationInterface.getWeatherByLocation(objectResonse)
-            }
-        })
-    }
 
     private fun makeIconURL(icon: String): String {
         val secion = "img/w/"

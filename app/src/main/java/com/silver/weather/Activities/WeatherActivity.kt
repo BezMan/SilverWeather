@@ -2,19 +2,14 @@ package com.silver.weather.Activities
 
 
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.silver.weather.Interfaces.weatherByLocationInterface
 import com.silver.weather.Interfaces.weatherByNameInterface
 import com.silver.weather.OpenWeatherMap.openWeatherMap
-import com.silver.weather.OpenWeatherMap.openWeatherMapAPILocation
 import com.silver.weather.R
 
 
@@ -39,31 +34,9 @@ class WeatherActivity : AppCompatActivity() {
         initToolbar()
         getExtras()
 
-        val builder = AlertDialog.Builder(this@WeatherActivity)
-        builder.setTitle("Unit")
-        val adaptadorDialogo = ArrayAdapter<String>(this@WeatherActivity, android.R.layout.simple_selectable_list_item)
-        builder.setPositiveButton("°C") { dialogInterface, i ->
-            unit = "&units=metric"
-            if (nameCity != null) {
-                getWeatherData(nameCity!!, unit!!)
-            } else {
-                getWeatherByLocation(lat!!, lon!!)
-            }
-        }
-        builder.setNeutralButton("°F") { dialogInterface, i ->
-            unit = ""
-            if (nameCity != null) {
-                getWeatherData(nameCity!!, unit!!)
-            } else {
-                getWeatherByLocation(lat!!, lon!!)
-            }
-        }
-        builder.setNegativeButton("Cancel") { dialog, which ->
-            finish()
-            dialog.dismiss()
-        }
-        builder.setCancelable(false)
-        builder.show()
+        unit = "&units=metric"
+        getWeatherData(nameCity!!, unit!!)
+
     }
 
     private fun getExtras() {
@@ -112,37 +85,4 @@ class WeatherActivity : AppCompatActivity() {
         })
     }
 
-    private fun getWeatherByLocation(lat: String, lon: String) {
-        val openWeatherMap = openWeatherMap(this)
-        openWeatherMap.getWeatherByLocation(lat, lon, object : weatherByLocationInterface {
-            override fun getWeatherByLocation(result: openWeatherMapAPILocation) {
-                this@WeatherActivity.runOnUiThread {
-                    if (result.list != null) {
-
-                        val builder = AlertDialog.Builder(this@WeatherActivity)
-                        builder.setTitle("Select location")
-                        val adaptadorDialogo = ArrayAdapter<String>(this@WeatherActivity, android.R.layout.simple_selectable_list_item)
-                        for (nameLocation in result.list!!) {
-                            adaptadorDialogo.add(nameLocation.name)
-                        }
-                        builder.setAdapter(adaptadorDialogo) { dialog, which ->
-                            getWeatherData(result.list?.get(which)?.name!!, unit!!)
-                        }
-                        builder.setNegativeButton("Cancel") { dialog, which ->
-                            finish()
-                            dialog.dismiss()
-                        }
-                        builder.setCancelable(false)
-                        builder.show()
-                    } else {
-                        this@WeatherActivity.runOnUiThread {
-                            Toast.makeText(applicationContext, "Weather no available", Toast.LENGTH_SHORT).show()
-                            finish()
-                        }
-                    }
-                }
-            }
-
-        })
-    }
 }
