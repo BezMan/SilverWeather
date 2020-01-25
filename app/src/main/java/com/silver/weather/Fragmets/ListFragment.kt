@@ -65,10 +65,9 @@ class ListFragment : Fragment() {
 
     private fun loadData() {
         listCities = ArrayList()
-        val res = resources
-        val mexicoCities = res.getStringArray(R.array.nameCitiesMexico)
-        for (mxCities in mexicoCities) {
-            listCities?.add(City(mxCities, "México"))
+        val cities = resources.getStringArray(R.array.cityStrArray)
+        for (cityName in cities) {
+            listCities?.add(City(cityName, "sub"))
         }
     }
 
