@@ -8,7 +8,7 @@ import com.silver.weather.R
 import com.silver.weather.view.fragments.ListFragment
 import kotlinx.android.synthetic.main.activity_choose.*
 
-class ChooseActivity : AppCompatActivity() {
+class MainListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

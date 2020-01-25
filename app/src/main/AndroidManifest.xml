@@ -16,7 +16,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name="com.silver.weather.view.activities.ChooseActivity"
+            android:name="com.silver.weather.view.activities.MainListActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,8 +24,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.silver.weather.view.activities.WeatherActivity"
-            android:parentActivityName="com.silver.weather.view.activities.ChooseActivity">
+            android:name="com.silver.weather.view.activities.DetailForecastActivity"
+            android:parentActivityName="com.silver.weather.view.activities.MainListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />

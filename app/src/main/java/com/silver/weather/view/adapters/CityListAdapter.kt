@@ -54,10 +54,10 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<String>,
         return filteredList.count()
     }
 
-    class ViewHolder(view: View, IClickListener: IClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    class ViewHolder(view: View, clickListener: IClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
         var tvCity: TextView = view.tvCity
         var tvCountry: TextView = view.tvCountry
-        private var listener: IClickListener? = IClickListener
+        private var listener: IClickListener? = clickListener
         private var cardView: CardView = view.cardView
 
         init {

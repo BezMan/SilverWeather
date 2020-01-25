@@ -11,7 +11,7 @@ import com.silver.weather.model.WeatherMapApi
 import kotlinx.android.synthetic.main.activity_weather.*
 
 
-class WeatherActivity : AppCompatActivity() {
+class DetailForecastActivity : AppCompatActivity() {
     private lateinit var nameCity: String
     private lateinit var unit: String
 
@@ -46,7 +46,7 @@ class WeatherActivity : AppCompatActivity() {
     private fun networkCallback(unit: String): IGetWeather {
         return object : IGetWeather {
             override fun getWeatherByName(cityObj: CityObj) {
-                this@WeatherActivity.runOnUiThread {
+                this@DetailForecastActivity.runOnUiThread {
 
                     val m = if (unit.isNotEmpty()) "°C" else "°F"
 
@@ -55,7 +55,7 @@ class WeatherActivity : AppCompatActivity() {
                     tvTempMin?.text = "Temp min: ${cityObj.tempMin}$m"
                     tvDescription?.text = "Description: ${cityObj.description}"
 
-                    Glide.with(this@WeatherActivity).load(cityObj.urlImage).into(iconImg)
+                    Glide.with(this@DetailForecastActivity).load(cityObj.urlImage).into(iconImg)
                 }
             }
         }

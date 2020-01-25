@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.silver.weather.R
 import com.silver.weather.interfaces.IClickListener
-import com.silver.weather.view.activities.WeatherActivity
+import com.silver.weather.view.activities.DetailForecastActivity
 import com.silver.weather.view.adapters.CityListAdapter
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
@@ -36,7 +36,7 @@ class ListFragment : Fragment() {
         }
 
         fun goWeatherResult(cityName: String, context: Context) {
-            val intent = Intent(context, WeatherActivity::class.java)
+            val intent = Intent(context, DetailForecastActivity::class.java)
             intent.putExtra("CITY", cityName)
             context.startActivity(intent)
         }
@@ -74,6 +74,7 @@ class ListFragment : Fragment() {
     private fun fetchCitiesList() {
         listCities = ArrayList()
         val cities = resources.getStringArray(R.array.cityStrArray)
+//        val cities = resources.getStringArray(R.array.cityStrArray)
         for (cityName in cities) {
             listCities.add(cityName)
         }
