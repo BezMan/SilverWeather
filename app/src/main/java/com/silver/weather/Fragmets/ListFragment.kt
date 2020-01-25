@@ -19,21 +19,21 @@ import kotlinx.android.synthetic.main.fragment_list.view.*
 
 
 class ListFragment : Fragment() {
-    var listCities: ArrayList<City>? = null
-
-    private var recyclerViewCities: RecyclerView? = null
-    private var layoutManager: RecyclerView.LayoutManager? = null
 
     companion object {
-        var fragmentLayout: View? = null
-        var citiesAdapter: CityAdapter? = null
+        private var listCities: ArrayList<City>? = null
+        private var recyclerViewCities: RecyclerView? = null
+        private var citiesAdapter: CityAdapter? = null
+
+        private var layoutManager: RecyclerView.LayoutManager? = null
+        private var fragmentLayout: View? = null
+
         fun receiveData(query: String, submit: Boolean) {
             if (submit) {
                 goWeatherResult(query, fragmentLayout?.context!!)
             } else {
-                citiesAdapter?.filter(query)
+                listCities = citiesAdapter?.filter(query)
             }
-
         }
 
         fun goWeatherResult(cityName: String, context: Context) {
@@ -43,9 +43,10 @@ class ListFragment : Fragment() {
         }
     }
 
+    @Override
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentLayout = inflater.inflate(R.layout.fragment_list, container, false)
-        loadData()
+        fetchCitiesList()
         configureRecyclerView()
 
         return fragmentLayout
@@ -56,6 +57,7 @@ class ListFragment : Fragment() {
         recyclerViewCities?.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(fragmentLayout?.context)
         recyclerViewCities?.layoutManager = layoutManager
+
         citiesAdapter = CityAdapter(fragmentLayout?.context!!, listCities!!, object : ClickListener {
             override fun onClick(view: View, index: Int) {
                 val index = listCities?.get(index)
@@ -66,7 +68,7 @@ class ListFragment : Fragment() {
         recyclerViewCities?.adapter = citiesAdapter
     }
 
-    private fun loadData() {
+    private fun fetchCitiesList() {
         listCities = ArrayList()
         val cities = resources.getStringArray(R.array.cityStrArray)
         for (cityName in cities) {

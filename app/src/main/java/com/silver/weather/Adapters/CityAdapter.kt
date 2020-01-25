@@ -25,11 +25,9 @@ class CityAdapter(private var context: Context, itemList: ArrayList<City>, priva
         return ViewHolder(view, clickListener)
     }
 
-    fun filter(query: String) {
+    fun filter(query: String): ArrayList<City>? {
         if (query == "") {
             filteredList = ArrayList(fullList)
-            notifyDataSetChanged()
-            return
         } else {
             filteredList?.clear()
             var search = query
@@ -40,8 +38,9 @@ class CityAdapter(private var context: Context, itemList: ArrayList<City>, priva
                     filteredList?.add(item)
                 }
             }
-            notifyDataSetChanged()
         }
+        notifyDataSetChanged()
+        return filteredList
 
     }
 
