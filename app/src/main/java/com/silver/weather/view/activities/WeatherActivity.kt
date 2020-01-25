@@ -7,7 +7,7 @@ import android.util.Log
 import com.bumptech.glide.Glide
 import com.silver.weather.Interfaces.weatherByNameInterface
 import com.silver.weather.R
-import com.silver.weather.model.WeatherMapRequests
+import com.silver.weather.model.WeatherMapApi
 import kotlinx.android.synthetic.main.activity_weather.*
 
 
@@ -39,7 +39,7 @@ class WeatherActivity : AppCompatActivity() {
     }
 
     private fun getWeatherData(nameCity: String, unit: String) {
-        val openWeatherMap = WeatherMapRequests(this)
+        val openWeatherMap = WeatherMapApi(this)
         openWeatherMap.getWeatherByName(nameCity, unit, object : weatherByNameInterface {
             override fun getWeatherByName(nameCity: String, urlImage: String, status: String, description: String, temperature: String, tempMin: String, tempMax: String) {
                 this@WeatherActivity.runOnUiThread {
