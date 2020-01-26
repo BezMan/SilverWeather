@@ -3,6 +3,7 @@ package com.silver.weather.view.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.silver.weather.R
 import kotlinx.android.synthetic.main.activity_forecast_detail.*
 
@@ -20,6 +21,7 @@ class DetailForecastActivity : AppCompatActivity() {
 
     private fun getExtras() {
         nameCity = intent.getStringExtra("CITY")
+        Log.d("getExtras", "nameCity: $nameCity")
     }
 
 

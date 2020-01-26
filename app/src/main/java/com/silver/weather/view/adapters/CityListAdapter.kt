@@ -11,17 +11,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.silver.weather.R
-import com.silver.weather.interfaces.IClickListener
 import com.silver.weather.model.CityObj
 import kotlinx.android.synthetic.main.list_item_city.view.*
 
-class CityListAdapter(private var context: Context, itemList: ArrayList<CityObj>, private var IClickListener: IClickListener) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
+class CityListAdapter(private var context: Context, itemList: ArrayList<CityObj>) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
     private var filteredList: ArrayList<CityObj> = itemList
     private var fullList: ArrayList<CityObj> = itemList
 
+    companion object {
+        var mClickListener: ItemClickListener? = null
+    }
+
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_item_city, p0, false)
-        return ViewHolder(view, IClickListener)
+        return ViewHolder(view)
     }
 
     fun filter(query: String) {
@@ -56,21 +59,33 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<CityObj>
         return filteredList.count()
     }
 
-    class ViewHolder(view: View, clickListener: IClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
+
+    // allows clicks events to be caught
+    fun setClickListener(itemClickListener: ItemClickListener) {
+        mClickListener = itemClickListener
+    }
+
+
+    // parent activity will implement this method to respond to click events
+    interface ItemClickListener {
+        fun onItemClick(view: View?, index: Int)
+    }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         var tvCity: TextView = view.tvCity
         var tvDescription: TextView = view.tvDescription
         var tvTempMax: TextView = view.tvTempMax
         var tvTempMin: TextView = view.tvTempMin
         var iconImg: ImageView = view.iconImg
-        private var listener: IClickListener? = clickListener
         private var cardView: CardView = view.cardView
 
         init {
             cardView.setOnClickListener(this)
         }
 
-        override fun onClick(p0: View?) {
-            listener?.onClick(p0!!, adapterPosition)
+        override fun onClick(v: View?) {
+            mClickListener?.onItemClick(v, adapterPosition)
         }
+
     }
 }
