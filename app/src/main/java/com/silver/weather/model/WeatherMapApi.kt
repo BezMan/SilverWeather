@@ -1,10 +1,6 @@
 package com.silver.weather.model
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Toast
 import com.google.gson.Gson
 import com.silver.weather.interfaces.IGetWeather
 import okhttp3.Call
@@ -12,7 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import java.io.IOException
 
-class WeatherMapApi(var activity: AppCompatActivity) {
+class WeatherMapApi {
 
     private val URL_BASE = "http://api.openweathermap.org/"
     private val VERSION = "data/2.5/"
@@ -37,9 +33,6 @@ class WeatherMapApi(var activity: AppCompatActivity) {
                             , cityData.main.temp_min.toString()
                             , cityData.main.temp_max.toString())
                     weather.getWeatherByName(cityObj)
-                } else {
-                    Toast.makeText(activity.applicationContext, "Could not get Weather data", Toast.LENGTH_SHORT).show()
-                    activity.finish()
                 }
             }
         }
@@ -51,16 +44,8 @@ class WeatherMapApi(var activity: AppCompatActivity) {
     }
 
 
-    private fun verifyAvailableNetwork(): Boolean {
-        val connectivityManager = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
-    }
-
-
     private fun httpRequest(url: String, httpResponse: HttpResponse) {
         Log.d("URL_REQUEST", url)
-        if (verifyAvailableNetwork()) {
             val client = OkHttpClient()
             val request = okhttp3.Request.Builder().url(url).build()
 
@@ -72,13 +57,9 @@ class WeatherMapApi(var activity: AppCompatActivity) {
                 }
 
                 override fun onFailure(call: Call?, e: IOException?) {
-                    Toast.makeText(activity.applicationContext, "Error in HTTP request", Toast.LENGTH_SHORT).show()
                 }
             })
-        } else {
-            Toast.makeText(activity.applicationContext, "No network available", Toast.LENGTH_SHORT).show()
         }
-    }
 
 
     interface HttpResponse {
