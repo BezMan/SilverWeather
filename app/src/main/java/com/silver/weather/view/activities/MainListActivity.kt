@@ -25,7 +25,6 @@ class MainListActivity : AppCompatActivity() {
 
     private lateinit var listCities: ArrayList<String>
     private lateinit var listCityObjects: ArrayList<CityObj>
-    private var recyclerViewCities: RecyclerView? = null
     private lateinit var citiesListAdapter: CityListAdapter
 
     private var layoutManager: RecyclerView.LayoutManager? = null
@@ -50,11 +49,11 @@ class MainListActivity : AppCompatActivity() {
 
     private fun fetchAllCitiesData(unit: String?) {
         listCityObjects.clear()
-        citiesListAdapter = CityListAdapter(this@MainListActivity, listCityObjects, clickListenerCallback())
+        citiesListAdapter = CityListAdapter(this, listCityObjects, clickListenerCallback())
         recyclerViewCities?.adapter = citiesListAdapter
 
         for (cityName in listCities) {
-            weatherMapApi.getWeatherByName(cityName, unit, networkCallback(unit))
+            weatherMapApi.getWeatherByName(cityName, unit, networkCallback())
         }
     }
 
@@ -66,7 +65,6 @@ class MainListActivity : AppCompatActivity() {
 
 
     private fun configureRecyclerView() {
-        recyclerViewCities = findViewById(R.id.recyclerViewCities)
         layoutManager = LinearLayoutManager(this)
         recyclerViewCities?.layoutManager = layoutManager
         recyclerViewCities?.setHasFixedSize(true)
@@ -90,7 +88,7 @@ class MainListActivity : AppCompatActivity() {
         }
     }
 
-    private fun networkCallback(unit: String?): IGetWeather {
+    private fun networkCallback(): IGetWeather {
         return object : IGetWeather {
             override fun getWeatherCallback(cityObj: CityObj) {
                 listCityObjects.add(cityObj)
