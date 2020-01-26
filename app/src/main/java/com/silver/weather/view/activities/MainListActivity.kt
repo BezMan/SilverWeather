@@ -32,7 +32,7 @@ class MainListActivity : AppCompatActivity() {
     private val weatherMapApi = WeatherMapApi()
     private lateinit var searchView: SearchView
 
-    private var savedWeatherUnit: String = ""
+    private var storedWeatherUnit: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +41,11 @@ class MainListActivity : AppCompatActivity() {
         setSupportActionBar(actionBarChoose)
 
         listCityObjects = ArrayList()
+        storedWeatherUnit = SharedPrefs.loadStringData(SharedPrefs.UNIT_KEY)
 
         fetchCitiesList()
         configureRecyclerView()
-
-        savedWeatherUnit = SharedPrefs.loadStringData(SharedPrefs.UNIT_KEY)
-
-        fetchAllCitiesData(savedWeatherUnit)
+        fetchAllCitiesData(storedWeatherUnit)
     }
 
     private fun fetchAllCitiesData(unit: String?) {
@@ -111,6 +109,11 @@ class MainListActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_choose, menu)
 
+        val itemWeatherUnit = menu?.findItem(R.id.icUnit)
+        if (storedWeatherUnit == FAHRENHEIT) {
+            itemWeatherUnit?.title = "°F"
+        }
+
         val itemSearch = menu?.findItem(R.id.icSearch)
         initSearchView(itemSearch)
         return super.onCreateOptionsMenu(menu)
@@ -124,7 +127,6 @@ class MainListActivity : AppCompatActivity() {
 
             //when the user presses enter
             override fun onQueryTextSubmit(query: String?): Boolean {
-                //                searchSubmit(query!!)
                 return true
             }
 
@@ -139,9 +141,9 @@ class MainListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
-            R.id.icMap -> {
-                savedWeatherUnit = if (savedWeatherUnit == CELSIUS) FAHRENHEIT else CELSIUS
-                SharedPrefs.saveStringData(SharedPrefs.UNIT_KEY, savedWeatherUnit)
+            R.id.icUnit -> {
+                storedWeatherUnit = if (storedWeatherUnit == CELSIUS) FAHRENHEIT else CELSIUS
+                SharedPrefs.saveStringData(SharedPrefs.UNIT_KEY, storedWeatherUnit)
                 recreate()
 
                 true
