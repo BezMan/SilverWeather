@@ -6,13 +6,13 @@ import android.view.Menu
 import android.view.MenuItem
 import com.silver.weather.R
 import com.silver.weather.view.fragments.ListFragment
-import kotlinx.android.synthetic.main.activity_choose.*
+import kotlinx.android.synthetic.main.activity_main_list.*
 
 class MainListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_choose)
+        setContentView(R.layout.activity_main_list)
         actionBarChoose.setTitle(R.string.app_name)
         setSupportActionBar(actionBarChoose)
     }
