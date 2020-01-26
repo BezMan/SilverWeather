@@ -14,7 +14,7 @@ class WeatherMapApi {
     private val VERSION = "data/2.5/"
     private val API_ID = "&appid=a6fb62a4df6500bb3078d7e190bd637e"
 
-    fun getWeatherByName(cityName: String, unit: String, weather: IGetWeather) {
+    fun getWeatherByName(cityName: String, unit: String?, weather: IGetWeather) {
         val method = "weather?q=$cityName"
         val url = "$URL_BASE$VERSION$method$API_ID$unit"
 
@@ -32,7 +32,7 @@ class WeatherMapApi {
                             , cityData.weather[0].description
                             , cityData.main.temp_min.toString()
                             , cityData.main.temp_max.toString())
-                    weather.getWeatherByName(cityObj)
+                    weather.getWeatherCallback(cityObj)
                 }
             }
         }

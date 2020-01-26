@@ -24,7 +24,7 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<CityObj>
         return ViewHolder(view, IClickListener)
     }
 
-    fun filter(query: String): ArrayList<CityObj> {
+    fun filter(query: String) {
         if (query == "") {
             filteredList = ArrayList(fullList)
         } else {
@@ -39,8 +39,6 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<CityObj>
             }
         }
         notifyDataSetChanged()
-        return filteredList
-
     }
 
     @SuppressLint("SetTextI18n")

@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.silver.weather.R
+import com.silver.weather.cache.SharedPrefs
+import com.silver.weather.cache.SharedPrefs.CELSIUS
+import com.silver.weather.cache.SharedPrefs.FAHRENHEIT
 import com.silver.weather.interfaces.IClickListener
 import com.silver.weather.interfaces.IGetWeather
 import com.silver.weather.model.CityObj
@@ -25,7 +29,10 @@ class MainListActivity : AppCompatActivity() {
     private lateinit var citiesListAdapter: CityListAdapter
 
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private val openWeatherMap = WeatherMapApi()
+    private val weatherMapApi = WeatherMapApi()
+    private lateinit var searchView: SearchView
+
+    private var savedWeatherUnit: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,17 +40,23 @@ class MainListActivity : AppCompatActivity() {
         actionBarChoose.setTitle(R.string.app_name)
         setSupportActionBar(actionBarChoose)
 
+        listCityObjects = ArrayList()
+
         fetchCitiesList()
         configureRecyclerView()
 
-        fetchCityWeatherData()
+        savedWeatherUnit = SharedPrefs.loadStringData(SharedPrefs.UNIT_KEY)
 
+        fetchAllCitiesData(savedWeatherUnit)
     }
 
-    private fun fetchCityWeatherData() {
-        val unit = "&units=metric"
+    private fun fetchAllCitiesData(unit: String?) {
+        listCityObjects.clear()
+        citiesListAdapter = CityListAdapter(this@MainListActivity, listCityObjects, clickListenerCallback())
+        recyclerViewCities?.adapter = citiesListAdapter
+
         for (cityName in listCities) {
-            openWeatherMap.getWeatherByName(cityName, unit, networkCallback(unit))
+            weatherMapApi.getWeatherByName(cityName, unit, networkCallback(unit))
         }
     }
 
@@ -59,9 +72,6 @@ class MainListActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         recyclerViewCities?.layoutManager = layoutManager
         recyclerViewCities?.setHasFixedSize(true)
-
-        citiesListAdapter = CityListAdapter(this, listCityObjects, clickListenerCallback())
-        recyclerViewCities?.adapter = citiesListAdapter
     }
 
     private fun clickListenerCallback(): IClickListener {
@@ -76,16 +86,15 @@ class MainListActivity : AppCompatActivity() {
 
     private fun fetchCitiesList() {
         listCities = ArrayList()
-        listCityObjects = ArrayList()
         val cities = resources.getStringArray(R.array.cityStrArray)
         for (cityName in cities) {
             listCities.add(cityName)
         }
     }
 
-    private fun networkCallback(unit: String): IGetWeather {
+    private fun networkCallback(unit: String?): IGetWeather {
         return object : IGetWeather {
-            override fun getWeatherByName(cityObj: CityObj) {
+            override fun getWeatherCallback(cityObj: CityObj) {
                 listCityObjects.add(cityObj)
                 this@MainListActivity.runOnUiThread {
                     citiesListAdapter.notifyDataSetChanged()
@@ -94,26 +103,28 @@ class MainListActivity : AppCompatActivity() {
         }
     }
 
-//    fun searchSubmit(text: String) {
-//        goWeatherResult(text, this)
-//    }
 
     fun searchFilter(text: String) {
-        listCityObjects = citiesListAdapter.filter(text)
+        citiesListAdapter.filter(text)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_choose, menu)
 
         val itemSearch = menu?.findItem(R.id.icSearch)
-        val viewSearch = itemSearch?.actionView as android.support.v7.widget.SearchView
-        viewSearch.queryHint = "Write city..."
+        initSearchView(itemSearch)
+        return super.onCreateOptionsMenu(menu)
+    }
 
-        viewSearch.setOnQueryTextListener(object : android.support.v7.widget.SearchView.OnQueryTextListener {
+    private fun initSearchView(itemSearch: MenuItem?) {
+        searchView = itemSearch?.actionView as SearchView
+        searchView.queryHint = "Write city..."
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             //when the user presses enter
             override fun onQueryTextSubmit(query: String?): Boolean {
-//                searchSubmit(query!!)
+                //                searchSubmit(query!!)
                 return true
             }
 
@@ -123,30 +134,19 @@ class MainListActivity : AppCompatActivity() {
                 return true
             }
         })
-        return super.onCreateOptionsMenu(menu)
     }
 
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-//            R.id.icMap -> {
-//                val intent = Intent(this, MapsActivity::class.java)
-//                startActivity(intent)
-//                return true
-//            }
-//            R.id.icLocation -> {
-//                if (!lat.isNullOrEmpty() && !lng.isNullOrEmpty()) {
-//                    val intent = Intent(applicationContext, WeatherActivity::class.java)
-//                    intent.putExtra("LAT", lat)
-//                    intent.putExtra("LON", lng)
-//                    startActivity(intent)
-//                } else {
-//                    Toast.makeText(applicationContext, "Without location", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                return true
-//            }
-            else -> return super.onOptionsItemSelected(item)
+        return when (item?.itemId) {
+            R.id.icMap -> {
+                savedWeatherUnit = if (savedWeatherUnit == CELSIUS) FAHRENHEIT else CELSIUS
+                SharedPrefs.saveStringData(SharedPrefs.UNIT_KEY, savedWeatherUnit)
+                recreate()
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

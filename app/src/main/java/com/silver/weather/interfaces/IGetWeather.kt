@@ -4,5 +4,5 @@ import com.silver.weather.model.CityObj
 
 
 interface IGetWeather {
-    fun getWeatherByName(cityObj: CityObj)
+    fun getWeatherCallback(cityObj: CityObj)
 }
