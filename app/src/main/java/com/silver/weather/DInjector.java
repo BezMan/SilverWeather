@@ -1,13 +1,13 @@
 package com.silver.weather;
 
-import com.silver.weather.interfaces.IDataSource;
-import com.silver.weather.model.WeatherMapApi;
-import com.silver.weather.presenter.MainListViewModel;
+import com.silver.weather.interfaces.IMainListDataApi;
+import com.silver.weather.model.WeatherNetwork;
+import com.silver.weather.viewmodel.MainListViewModel;
 
 public class DInjector {
 
     private static MainListViewModel mainListViewModel;
-    private static IDataSource dataSource;
+    private static IMainListDataApi dataSource;
 
 
     public static MainListViewModel getViewModel() {
@@ -18,9 +18,9 @@ public class DInjector {
     }
 
 
-    public static IDataSource getRepository() {
+    public static IMainListDataApi getRepository() {
         if (dataSource == null) {
-            dataSource = new WeatherMapApi();
+            dataSource = new WeatherNetwork();
         }
         return dataSource;
     }

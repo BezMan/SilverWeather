@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.silver.weather.R
 import com.silver.weather.model.Forecast
-import com.silver.weather.model.WeatherMapApi
+import com.silver.weather.model.WeatherNetwork
 import com.silver.weather.view.adapters.ForecastAdapter
 import kotlinx.android.synthetic.main.activity_forecast_detail.*
 import java.text.SimpleDateFormat
@@ -24,7 +24,7 @@ class DetailForecastActivity : AppCompatActivity() {
     private lateinit var nameCity: String
     private lateinit var weatherUnit: String
 
-    private val weatherMapApi = WeatherMapApi()
+    private val weatherMapApi = WeatherNetwork()
 
     private lateinit var forecastAdapter: ForecastAdapter
     private lateinit var listForecasts: ArrayList<Forecast>
@@ -75,8 +75,8 @@ class DetailForecastActivity : AppCompatActivity() {
     }
 
 
-    private fun networkCallback(): WeatherMapApi.IGetForecast {
-        return object : WeatherMapApi.IGetForecast {
+    private fun networkCallback(): WeatherNetwork.IGetForecast {
+        return object : WeatherNetwork.IGetForecast {
             override fun getForecastCallback(cityForecastList: ArrayList<Forecast>) {
 
                 val filteredList = cityForecastList.filter {

@@ -15,9 +15,9 @@ import com.silver.weather.cache.SharedPrefs
 import com.silver.weather.cache.SharedPrefs.CELSIUS
 import com.silver.weather.cache.SharedPrefs.FAHRENHEIT
 import com.silver.weather.model.CityObj
-import com.silver.weather.presenter.MainListViewModel
-import com.silver.weather.presenter.RepoViewModelFactory
 import com.silver.weather.view.adapters.CityListAdapter
+import com.silver.weather.viewmodel.MainListViewModel
+import com.silver.weather.viewmodel.RepoViewModelFactory
 import kotlinx.android.synthetic.main.activity_main_list.*
 import kotlin.time.ExperimentalTime
 

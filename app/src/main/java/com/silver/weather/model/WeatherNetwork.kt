@@ -4,13 +4,13 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.google.gson.Gson
-import com.silver.weather.interfaces.IDataSource
+import com.silver.weather.interfaces.IMainListDataApi
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import java.io.IOException
 
-class WeatherMapApi : IDataSource {
+class WeatherNetwork : IMainListDataApi {
 
     private val URL_BASE = "http://api.openweathermap.org/"
     private val VERSION = "data/2.5/"
