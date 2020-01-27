@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import com.silver.weather.R
 import com.silver.weather.cache.SharedPrefs
 import com.silver.weather.cache.SharedPrefs.CELSIUS
@@ -133,8 +132,7 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
         }
     }
 
-    override fun onItemClick(view: View?, index: Int) {
-        val cityName = listCities[index]
+    override fun onItemClick(cityName: String) {
         val intent = Intent(this, DetailForecastActivity::class.java)
         intent.putExtra("CITY", cityName)
         intent.putExtra("UNIT", storedWeatherUnit)

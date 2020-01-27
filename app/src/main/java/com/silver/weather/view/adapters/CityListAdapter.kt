@@ -68,7 +68,7 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<CityObj>
 
     // parent activity will implement this method to respond to click events
     interface ItemClickListener {
-        fun onItemClick(view: View?, index: Int)
+        fun onItemClick(cityName: String)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
@@ -84,7 +84,7 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<CityObj>
         }
 
         override fun onClick(v: View?) {
-            mClickListener?.onItemClick(v, adapterPosition)
+            mClickListener?.onItemClick(v?.tvCity?.text.toString())
         }
 
     }
