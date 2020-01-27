@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.silver.weather.R
-import com.silver.weather.interfaces.IGetForecast
 import com.silver.weather.model.Forecast
 import com.silver.weather.model.WeatherMapApi
 import com.silver.weather.view.adapters.ForecastAdapter
@@ -76,8 +75,8 @@ class DetailForecastActivity : AppCompatActivity() {
     }
 
 
-    private fun networkCallback(): IGetForecast {
-        return object : IGetForecast {
+    private fun networkCallback(): WeatherMapApi.IGetForecast {
+        return object : WeatherMapApi.IGetForecast {
             override fun getForecastCallback(cityForecastList: ArrayList<Forecast>) {
 
                 val filteredList = cityForecastList.filter {

@@ -5,8 +5,6 @@ import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.google.gson.Gson
 import com.silver.weather.interfaces.IDataSource
-import com.silver.weather.interfaces.IGetForecast
-import com.silver.weather.interfaces.IGetWeather
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -22,7 +20,7 @@ class WeatherMapApi : IDataSource {
     var liveCityList = MutableLiveData<ArrayList<CityObj>>()
 
 
-    override fun getWeatherByCity(cityName: String, unit: String?, weather: IGetWeather): MutableLiveData<ArrayList<CityObj>> {
+    override fun getWeatherByCity(cityName: String, unit: String?): MutableLiveData<ArrayList<CityObj>> {
         val method = "weather?q=$cityName"
         val url = "$URL_BASE$VERSION$method$API_ID$unit"
 
@@ -120,6 +118,10 @@ class WeatherMapApi : IDataSource {
 
     interface HttpResponse {
         fun httpResponseSuccess(response: String)
+    }
+
+    interface IGetForecast {
+        fun getForecastCallback(cityForecastList: ArrayList<Forecast>)
     }
 
 }

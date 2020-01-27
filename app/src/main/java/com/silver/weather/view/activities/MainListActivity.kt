@@ -14,7 +14,6 @@ import com.silver.weather.R
 import com.silver.weather.cache.SharedPrefs
 import com.silver.weather.cache.SharedPrefs.CELSIUS
 import com.silver.weather.cache.SharedPrefs.FAHRENHEIT
-import com.silver.weather.interfaces.IGetWeather
 import com.silver.weather.model.CityObj
 import com.silver.weather.presenter.MainListViewModel
 import com.silver.weather.presenter.RepoViewModelFactory
@@ -82,7 +81,7 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
         recyclerViewCities?.adapter = citiesListAdapter
 
         for (cityName in listCities) {
-            mViewModel.getWeatherByCity(cityName, unit, networkCallback())
+            mViewModel.getWeatherByCity(cityName, unit)
         }
     }
 
@@ -101,18 +100,6 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
             listCities.add(cityName)
         }
     }
-
-    private fun networkCallback(): IGetWeather {
-        return object : IGetWeather {
-            override fun getWeatherCallback(cityObj: CityObj) {
-                listCityObjects.add(cityObj)
-                runOnUiThread {
-                    citiesListAdapter.notifyDataSetChanged()
-                }
-            }
-        }
-    }
-
 
     fun searchFilter(text: String) {
         citiesListAdapter.filter(text)
