@@ -10,9 +10,17 @@ import com.silver.weather.model.Forecast
 import com.silver.weather.model.WeatherMapApi
 import com.silver.weather.view.adapters.ForecastAdapter
 import kotlinx.android.synthetic.main.activity_forecast_detail.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.time.ExperimentalTime
 
 
+@ExperimentalTime
 class DetailForecastActivity : AppCompatActivity() {
+
+    var dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+    var customDateFormat: SimpleDateFormat = SimpleDateFormat("EEE, MMM d", Locale.US)
 
     private lateinit var nameCity: String
     private lateinit var weatherUnit: String
@@ -72,14 +80,34 @@ class DetailForecastActivity : AppCompatActivity() {
         return object : IGetForecast {
             override fun getForecastCallback(cityForecastList: ArrayList<Forecast>) {
 
+                val filteredList = cityForecastList.filter {
+                    hoursFilter(it)
+                }.map {
+                    customDate(it)
+                }
+
                 runOnUiThread {
-                    listForecasts = ArrayList(cityForecastList)
+                    listForecasts = ArrayList(filteredList)
                     refreshAdapter()
                 }
             }
+
         }
     }
 
+    private fun customDate(it: Forecast): Forecast {
+        val date = dateFormat.parse(it.dt_txt) //create a date object out of data
+        it.custom_dt_txt = customDateFormat.format(date)
+        return it
+    }
+
+
+    private fun hoursFilter(forecast: Forecast): Boolean {
+        val cal = Calendar.getInstance()
+        cal.time = dateFormat.parse(forecast.dt_txt)
+        val hours = cal[Calendar.HOUR_OF_DAY]
+        return (hours in 21..23)
+    }
 
 
 }

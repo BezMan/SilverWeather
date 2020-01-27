@@ -16,6 +16,7 @@ import com.silver.weather.model.CityObj
 import com.silver.weather.model.WeatherMapApi
 import com.silver.weather.view.adapters.CityListAdapter
 import kotlinx.android.synthetic.main.activity_main_list.*
+import kotlin.time.ExperimentalTime
 
 class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener {
 
@@ -132,6 +133,7 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
         }
     }
 
+    @ExperimentalTime
     override fun onItemClick(cityName: String) {
         val intent = Intent(this, DetailForecastActivity::class.java)
         intent.putExtra("CITY", cityName)

@@ -26,7 +26,7 @@ class ForecastAdapter(private var context: Context, list: ArrayList<Forecast>) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.tvDate.text = itemList[position].dt_txt
+        viewHolder.tvDate.text = itemList[position].custom_dt_txt
         viewHolder.tvDescription.text = itemList[position].weather[0].description
         viewHolder.tvTempMax.text = "max: ${itemList[position].main.temp_max}"
         viewHolder.tvTempMin.text = "min: ${itemList[position].main.temp_min}"
