@@ -22,8 +22,8 @@ import kotlin.time.ExperimentalTime
 @ExperimentalTime
 class DetailForecastActivity : AppCompatActivity() {
 
-    var dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
-    var customDateFormat: SimpleDateFormat = SimpleDateFormat("EEE, MMM d", Locale.US)
+    private var dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+    private var customDateFormat: SimpleDateFormat = SimpleDateFormat("EEE, MMM d", Locale.US)
 
     private lateinit var nameCity: String
     private lateinit var weatherUnit: String
@@ -31,7 +31,7 @@ class DetailForecastActivity : AppCompatActivity() {
     private lateinit var forecastAdapter: ForecastAdapter
     private lateinit var listForecasts: ArrayList<Forecast>
 
-    lateinit var mViewModel: DetailViewModel
+    private lateinit var mViewModel: DetailViewModel
 
     private val dataObserver: Observer<ArrayList<Forecast>> = Observer { list: ArrayList<Forecast>? -> dataCallback(list) }
 

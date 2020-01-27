@@ -30,7 +30,7 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
     private lateinit var searchView: SearchView
 
     private lateinit var storedWeatherUnit: String
-    lateinit var mViewModel: MainListViewModel
+    private lateinit var mViewModel: MainListViewModel
 
     private val dataObserver: Observer<ArrayList<CityObj>> = Observer { list: ArrayList<CityObj>? -> dataCallback(list) }
 
