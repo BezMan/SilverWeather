@@ -46,7 +46,7 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<CityObj>
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        if (filteredList.isNotEmpty()) {
+        if (!filteredList.isNullOrEmpty()) {
             viewHolder.tvCity.text = filteredList[position].nameCity
             viewHolder.tvDescription.text = filteredList[position].description
             viewHolder.tvTempMax.text = "max: ${filteredList[position].tempMax}"

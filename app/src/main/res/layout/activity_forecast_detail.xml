@@ -18,10 +18,12 @@
         android:id="@+id/detailCityTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+        android:background="@color/colorAccent"
+        android:elevation="10dp"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="@color/secondaryDarkColor"
+        android:padding="30dp"
         tools:text="title" />
 
     <android.support.v7.widget.RecyclerView
