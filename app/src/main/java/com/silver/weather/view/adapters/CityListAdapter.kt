@@ -46,13 +46,14 @@ class CityListAdapter(private var context: Context, itemList: ArrayList<CityObj>
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.tvCity.text = filteredList[position].nameCity
-        viewHolder.tvDescription.text = filteredList[position].description
-        viewHolder.tvTempMax.text = "max: ${filteredList[position].tempMax}"
-        viewHolder.tvTempMin.text = "min: ${filteredList[position].tempMin}"
+        if (filteredList.isNotEmpty()) {
+            viewHolder.tvCity.text = filteredList[position].nameCity
+            viewHolder.tvDescription.text = filteredList[position].description
+            viewHolder.tvTempMax.text = "max: ${filteredList[position].tempMax}"
+            viewHolder.tvTempMin.text = "min: ${filteredList[position].tempMin}"
 
-        Glide.with(context).load(filteredList[position].urlImage).into(viewHolder.iconImg)
-
+            Glide.with(context).load(filteredList[position].urlImage).into(viewHolder.iconImg)
+        }
     }
 
     override fun getItemCount(): Int {

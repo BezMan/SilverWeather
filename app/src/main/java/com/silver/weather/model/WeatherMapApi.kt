@@ -1,7 +1,10 @@
 package com.silver.weather.model
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.google.gson.Gson
+import com.silver.weather.interfaces.IDataSource
 import com.silver.weather.interfaces.IGetForecast
 import com.silver.weather.interfaces.IGetWeather
 import okhttp3.Call
@@ -9,34 +12,50 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import java.io.IOException
 
-class WeatherMapApi {
+class WeatherMapApi : IDataSource {
 
     private val URL_BASE = "http://api.openweathermap.org/"
     private val VERSION = "data/2.5/"
     private val API_ID = "&appid=a6fb62a4df6500bb3078d7e190bd637e"
 
-    fun getWeatherByCity(cityName: String, unit: String?, weather: IGetWeather) {
+    var cityList = ArrayList<CityObj>()
+    var liveCityList = MutableLiveData<ArrayList<CityObj>>()
+
+
+    override fun getWeatherByCity(cityName: String, unit: String?, weather: IGetWeather): MutableLiveData<ArrayList<CityObj>> {
         val method = "weather?q=$cityName"
         val url = "$URL_BASE$VERSION$method$API_ID$unit"
 
-        weatherHttpRequest(url, weatherDataCallback(weather))
+        cityList.clear()
+        liveCityList.value = cityList
+        weatherHttpRequest(url, weatherDataCallback())
+
+        return liveCityList
     }
 
-    private fun weatherDataCallback(weather: IGetWeather): HttpResponse {
+
+    private fun weatherDataCallback(): HttpResponse {
         return object : HttpResponse {
             override fun httpResponseSuccess(response: String) {
-                val gson = Gson()
-                val cityData = gson.fromJson(response, CityWeather::class.java)
+                val cityData = Gson().fromJson(response, CityWeather::class.java)
                 if (cityData.name.isNotEmpty()) {
                     val cityObj = CityObj(cityData.name
                             , makeIconURL(cityData.weather[0].icon)
                             , cityData.weather[0].description
                             , cityData.main.temp_min.toString()
                             , cityData.main.temp_max.toString())
-                    weather.getWeatherCallback(cityObj)
+
+
+                    cityList.add(cityObj)
+                    liveCityList.postValue(cityList)
+
                 }
             }
         }
+    }
+
+    override fun getListData(): LiveData<ArrayList<CityObj>> {
+        return liveCityList
     }
 
     fun getForecastByCity(cityName: String, unit: String?, weather: IGetForecast) {
@@ -49,8 +68,7 @@ class WeatherMapApi {
     private fun forecastDataCallback(weather: IGetForecast): HttpResponse {
         return object : HttpResponse {
             override fun httpResponseSuccess(response: String) {
-                val gson = Gson()
-                val cityData = gson.fromJson(response, CityForecast::class.java)
+                val cityData = Gson().fromJson(response, CityForecast::class.java)
 
                 val forecastList = ArrayList(cityData.list)
                 weather.getForecastCallback(forecastList)
