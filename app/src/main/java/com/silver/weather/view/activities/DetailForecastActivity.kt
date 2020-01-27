@@ -3,10 +3,12 @@ package com.silver.weather.view.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import com.silver.weather.R
 import com.silver.weather.interfaces.IGetForecast
 import com.silver.weather.model.Forecast
 import com.silver.weather.model.WeatherMapApi
+import com.silver.weather.view.adapters.ForecastAdapter
 import kotlinx.android.synthetic.main.activity_forecast_detail.*
 
 
@@ -17,14 +19,34 @@ class DetailForecastActivity : AppCompatActivity() {
 
     private val weatherMapApi = WeatherMapApi()
 
+    private lateinit var forecastAdapter: ForecastAdapter
+    private lateinit var listForecasts: ArrayList<Forecast>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast_detail)
 
+        listForecasts = ArrayList()
         initToolbar()
+        initRecycler()
         getExtras()
         fetchCityForecastData()
     }
+
+
+    private fun initRecycler() {
+        val linearLayoutManager = LinearLayoutManager(this)
+        detailRecyclerViewForecast?.layoutManager = linearLayoutManager
+        detailRecyclerViewForecast?.setHasFixedSize(true)
+        refreshAdapter()
+    }
+
+    private fun refreshAdapter() {
+        forecastAdapter = ForecastAdapter(this, listForecasts)
+        detailRecyclerViewForecast?.adapter = forecastAdapter
+        forecastAdapter.notifyDataSetChanged()
+    }
+
 
     private fun getExtras() {
         nameCity = intent.getStringExtra("CITY")
@@ -47,8 +69,14 @@ class DetailForecastActivity : AppCompatActivity() {
 
     private fun networkCallback(): IGetForecast {
         return object : IGetForecast {
-            override fun getForecastCallback(cityForecastList: List<Forecast>) {
+            override fun getForecastCallback(cityForecastList: ArrayList<Forecast>) {
 
+                runOnUiThread {
+                    detailCityTitle.text = nameCity
+                    listForecasts = ArrayList(cityForecastList)
+//                    Log.d("runOnUiThread", cityForecastList[0].toString())
+                    refreshAdapter()
+                }
             }
         }
     }

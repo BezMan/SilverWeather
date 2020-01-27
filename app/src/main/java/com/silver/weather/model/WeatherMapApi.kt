@@ -52,7 +52,7 @@ class WeatherMapApi {
                 val gson = Gson()
                 val cityData = gson.fromJson(response, CityForecast::class.java)
 
-                val forecastList = cityData.list
+                val forecastList = ArrayList(cityData.list)
                 weather.getForecastCallback(forecastList)
             }
         }

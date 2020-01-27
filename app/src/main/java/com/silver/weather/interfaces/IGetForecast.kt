@@ -4,5 +4,5 @@ import com.silver.weather.model.Forecast
 
 
 interface IGetForecast {
-    fun getForecastCallback(cityForecastList: List<Forecast>)
+    fun getForecastCallback(cityForecastList: ArrayList<Forecast>)
 }

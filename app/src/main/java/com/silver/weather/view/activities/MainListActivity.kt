@@ -75,7 +75,7 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
         return object : IGetWeather {
             override fun getWeatherCallback(cityObj: CityObj) {
                 listCityObjects.add(cityObj)
-                this@MainListActivity.runOnUiThread {
+                runOnUiThread {
                     citiesListAdapter.notifyDataSetChanged()
                 }
             }
@@ -135,10 +135,10 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
 
     override fun onItemClick(view: View?, index: Int) {
         val cityName = listCities[index]
-        val intent = Intent(this@MainListActivity, DetailForecastActivity::class.java)
+        val intent = Intent(this, DetailForecastActivity::class.java)
         intent.putExtra("CITY", cityName)
         intent.putExtra("UNIT", storedWeatherUnit)
-        this@MainListActivity.startActivity(intent)
+        startActivity(intent)
 
     }
 
