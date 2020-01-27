@@ -16,8 +16,8 @@ import java.util.*
 
 class ForecastAdapter(private var context: Context, list: ArrayList<Forecast>) : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
 
+    private val URL_BASE = "http://api.openweathermap.org/"
     private var itemList: ArrayList<Forecast> = list
-//    private var fullList: ArrayList<Forecast> = itemList
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_item_forecast, p0, false)
@@ -31,8 +31,13 @@ class ForecastAdapter(private var context: Context, list: ArrayList<Forecast>) :
         viewHolder.tvTempMax.text = "max: ${itemList[position].main.temp_max}"
         viewHolder.tvTempMin.text = "min: ${itemList[position].main.temp_min}"
 
-        Glide.with(context).load(itemList[position].weather[0].icon).into(viewHolder.iconImg)
+        val icon = makeIconURL(itemList[position].weather[0].icon)
+        Glide.with(context).load(icon).into(viewHolder.iconImg)
 
+    }
+
+    private fun makeIconURL(icon: String): String {
+        return "${URL_BASE}img/w/$icon.png"
     }
 
     override fun getItemCount(): Int {

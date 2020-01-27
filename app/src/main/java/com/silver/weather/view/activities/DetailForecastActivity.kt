@@ -51,6 +51,7 @@ class DetailForecastActivity : AppCompatActivity() {
     private fun getExtras() {
         nameCity = intent.getStringExtra("CITY")
         weatherUnit = intent.getStringExtra("UNIT")
+        detailCityTitle.text = nameCity
     }
 
 
@@ -72,9 +73,7 @@ class DetailForecastActivity : AppCompatActivity() {
             override fun getForecastCallback(cityForecastList: ArrayList<Forecast>) {
 
                 runOnUiThread {
-                    detailCityTitle.text = nameCity
                     listForecasts = ArrayList(cityForecastList)
-//                    Log.d("runOnUiThread", cityForecastList[0].toString())
                     refreshAdapter()
                 }
             }
