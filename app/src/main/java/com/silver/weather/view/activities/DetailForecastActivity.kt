@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager
 import com.silver.weather.DInjector
 import com.silver.weather.R
 import com.silver.weather.model.Forecast
-import com.silver.weather.model.WeatherNetwork
 import com.silver.weather.view.adapters.ForecastAdapter
 import com.silver.weather.viewmodel.DetailViewModel
 import com.silver.weather.viewmodel.DetailViewModelFactory
@@ -28,8 +27,6 @@ class DetailForecastActivity : AppCompatActivity() {
 
     private lateinit var nameCity: String
     private lateinit var weatherUnit: String
-
-    private val weatherMapApi = WeatherNetwork()
 
     private lateinit var forecastAdapter: ForecastAdapter
     private lateinit var listForecasts: ArrayList<Forecast>
