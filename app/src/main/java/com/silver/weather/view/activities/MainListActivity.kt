@@ -52,7 +52,7 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
         recyclerViewCities?.adapter = citiesListAdapter
 
         for (cityName in listCities) {
-            weatherMapApi.getWeatherByName(cityName, unit, networkCallback())
+            weatherMapApi.getWeatherByCity(cityName, unit, networkCallback())
         }
     }
 
@@ -140,6 +140,7 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
         val cityName = listCities[index]
         val intent = Intent(this@MainListActivity, DetailForecastActivity::class.java)
         intent.putExtra("CITY", cityName)
+        intent.putExtra("UNIT", storedWeatherUnit)
         this@MainListActivity.startActivity(intent)
 
     }

@@ -19,7 +19,7 @@ data class CityForecast(
         val city: CityX,
         val cnt: Int,
         val cod: String,
-        val list: List<X>,
+        val list: List<Forecast>,
         val message: Double
 )
 
@@ -36,7 +36,7 @@ data class Coord(
         val lon: Double
 )
 
-data class X(
+data class Forecast(
         val clouds: Clouds,
         val dt: Int,
         val dt_txt: String,
