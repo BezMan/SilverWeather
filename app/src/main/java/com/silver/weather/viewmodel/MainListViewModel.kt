@@ -12,8 +12,8 @@ class MainListViewModel(private val mRemoteDataSource: IMainListDataApi) : ViewM
         return mRemoteDataSource.getWeatherByCity(cityName, unit)
     }
 
-    fun getListData(): LiveData<ArrayList<CityObj>> {
-        return mRemoteDataSource.getListData()
+    fun getCityList(): LiveData<ArrayList<CityObj>> {
+        return mRemoteDataSource.getCityList()
     }
 
 

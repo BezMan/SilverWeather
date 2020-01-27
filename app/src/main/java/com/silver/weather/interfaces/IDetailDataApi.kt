@@ -6,6 +6,6 @@ import com.silver.weather.model.Forecast
 
 interface IDetailDataApi {
     fun getForecastByCity(cityName: String, unit: String?): MutableLiveData<ArrayList<Forecast>>
-    fun getListData(): LiveData<ArrayList<Forecast>>
+    fun getForecastData(): LiveData<ArrayList<Forecast>>
 
 }

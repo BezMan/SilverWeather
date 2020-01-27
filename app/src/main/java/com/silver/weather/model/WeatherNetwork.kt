@@ -4,13 +4,14 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.google.gson.Gson
+import com.silver.weather.interfaces.IDetailDataApi
 import com.silver.weather.interfaces.IMainListDataApi
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import java.io.IOException
 
-class WeatherNetwork : IMainListDataApi {
+class WeatherNetwork : IMainListDataApi, IDetailDataApi {
 
     private val URL_BASE = "http://api.openweathermap.org/"
     private val VERSION = "data/2.5/"
@@ -18,6 +19,9 @@ class WeatherNetwork : IMainListDataApi {
 
     var cityList = ArrayList<CityObj>()
     var liveCityList = MutableLiveData<ArrayList<CityObj>>()
+
+    var forecastList = ArrayList<Forecast>()
+    var liveForecastList = MutableLiveData<ArrayList<Forecast>>()
 
 
     override fun getWeatherByCity(cityName: String, unit: String?): MutableLiveData<ArrayList<CityObj>> {
@@ -52,24 +56,37 @@ class WeatherNetwork : IMainListDataApi {
         }
     }
 
-    override fun getListData(): LiveData<ArrayList<CityObj>> {
+    override fun getCityList(): LiveData<ArrayList<CityObj>> {
         return liveCityList
     }
 
-    fun getForecastByCity(cityName: String, unit: String?, weather: IGetForecast) {
+    override fun getForecastData(): LiveData<ArrayList<Forecast>> {
+        return liveForecastList
+    }
+
+
+    override fun getForecastByCity(cityName: String, unit: String?): MutableLiveData<ArrayList<Forecast>> {
         val method = "forecast?q=$cityName"
         val url = "$URL_BASE$VERSION$method$API_ID$unit"
 
-        forecastHttpRequest(url, forecastDataCallback(weather))
+        forecastList.clear()
+        liveForecastList.value = forecastList
+        forecastHttpRequest(url, forecastDataCallback())
+
+        return liveForecastList
     }
 
-    private fun forecastDataCallback(weather: IGetForecast): HttpResponse {
+
+    private fun forecastDataCallback(): HttpResponse {
         return object : HttpResponse {
             override fun httpResponseSuccess(response: String) {
                 val cityData = Gson().fromJson(response, CityForecast::class.java)
+                if (cityData.list.isNotEmpty()) {
 
-                val forecastList = ArrayList(cityData.list)
-                weather.getForecastCallback(forecastList)
+                    forecastList = ArrayList(cityData.list)
+                    liveForecastList.postValue(forecastList)
+                }
+
             }
         }
     }
@@ -118,10 +135,6 @@ class WeatherNetwork : IMainListDataApi {
 
     interface HttpResponse {
         fun httpResponseSuccess(response: String)
-    }
-
-    interface IGetForecast {
-        fun getForecastCallback(cityForecastList: ArrayList<Forecast>)
     }
 
 }

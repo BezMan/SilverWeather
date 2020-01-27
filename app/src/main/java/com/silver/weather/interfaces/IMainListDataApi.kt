@@ -6,6 +6,6 @@ import com.silver.weather.model.CityObj
 
 interface IMainListDataApi {
     fun getWeatherByCity(cityName: String, unit: String?): MutableLiveData<ArrayList<CityObj>>
-    fun getListData(): LiveData<ArrayList<CityObj>>
+    fun getCityList(): LiveData<ArrayList<CityObj>>
 
 }

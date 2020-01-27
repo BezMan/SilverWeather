@@ -1,13 +1,18 @@
 package com.silver.weather.view.activities
 
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import com.silver.weather.DInjector
 import com.silver.weather.R
 import com.silver.weather.model.Forecast
 import com.silver.weather.model.WeatherNetwork
 import com.silver.weather.view.adapters.ForecastAdapter
+import com.silver.weather.viewmodel.DetailViewModel
+import com.silver.weather.viewmodel.DetailViewModelFactory
 import kotlinx.android.synthetic.main.activity_forecast_detail.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,6 +34,10 @@ class DetailForecastActivity : AppCompatActivity() {
     private lateinit var forecastAdapter: ForecastAdapter
     private lateinit var listForecasts: ArrayList<Forecast>
 
+    lateinit var mViewModel: DetailViewModel
+
+    private val dataObserver: Observer<ArrayList<Forecast>> = Observer { list: ArrayList<Forecast>? -> dataCallback(list) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast_detail)
@@ -37,7 +46,33 @@ class DetailForecastActivity : AppCompatActivity() {
         initToolbar()
         initRecycler()
         getExtras()
+
+        initViewModel()
+        setObservers()
+
         fetchCityForecastData()
+    }
+
+
+    private fun initViewModel() {
+        mViewModel = DInjector.getDetailViewModel()
+        mViewModel = ViewModelProvider(this, DetailViewModelFactory(DInjector.getDetailRepository())).get(DetailViewModel::class.java)
+    }
+
+    private fun setObservers() {
+        mViewModel.getForecastData().observe(this, dataObserver)
+    }
+
+    private fun dataCallback(cityForecastList: ArrayList<Forecast>?) {
+
+        val filteredList = cityForecastList?.filter {
+            hoursFilter(it)
+        }?.map {
+            customDate(it)
+        }
+
+        listForecasts = ArrayList(filteredList!!)
+        refreshAdapter()
     }
 
 
@@ -71,28 +106,9 @@ class DetailForecastActivity : AppCompatActivity() {
 
 
     private fun fetchCityForecastData() {
-        weatherMapApi.getForecastByCity(nameCity, weatherUnit, networkCallback())
+        mViewModel.getForecastByCity(nameCity, weatherUnit)
     }
 
-
-    private fun networkCallback(): WeatherNetwork.IGetForecast {
-        return object : WeatherNetwork.IGetForecast {
-            override fun getForecastCallback(cityForecastList: ArrayList<Forecast>) {
-
-                val filteredList = cityForecastList.filter {
-                    hoursFilter(it)
-                }.map {
-                    customDate(it)
-                }
-
-                runOnUiThread {
-                    listForecasts = ArrayList(filteredList)
-                    refreshAdapter()
-                }
-            }
-
-        }
-    }
 
     private fun customDate(it: Forecast): Forecast {
         val date = dateFormat.parse(it.dt_txt) //create a date object out of data

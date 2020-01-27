@@ -17,7 +17,7 @@ import com.silver.weather.cache.SharedPrefs.FAHRENHEIT
 import com.silver.weather.model.CityObj
 import com.silver.weather.view.adapters.CityListAdapter
 import com.silver.weather.viewmodel.MainListViewModel
-import com.silver.weather.viewmodel.RepoViewModelFactory
+import com.silver.weather.viewmodel.MainListViewModelFactory
 import kotlinx.android.synthetic.main.activity_main_list.*
 import kotlin.time.ExperimentalTime
 
@@ -55,11 +55,11 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
 
     private fun initViewModel() {
         mViewModel = DInjector.getViewModel()
-        mViewModel = ViewModelProvider(this, RepoViewModelFactory(DInjector.getRepository())).get(MainListViewModel::class.java)
+        mViewModel = ViewModelProvider(this, MainListViewModelFactory(DInjector.getMainRepository())).get(MainListViewModel::class.java)
     }
 
     private fun setObservers() {
-        mViewModel.getListData().observe(this, dataObserver)
+        mViewModel.getCityList().observe(this, dataObserver)
     }
 
     private fun dataCallback(data: ArrayList<CityObj>?) {
