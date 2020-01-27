@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
@@ -25,7 +24,6 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
     private lateinit var listCityObjects: ArrayList<CityObj>
     private lateinit var citiesListAdapter: CityListAdapter
 
-    private var layoutManager: RecyclerView.LayoutManager? = null
     private val weatherMapApi = WeatherMapApi()
     private lateinit var searchView: SearchView
 
@@ -59,8 +57,7 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
 
 
     private fun configureRecyclerView() {
-        layoutManager = LinearLayoutManager(this)
-        recyclerViewCities?.layoutManager = layoutManager
+        recyclerViewCities?.layoutManager = LinearLayoutManager(this)
         recyclerViewCities?.setHasFixedSize(true)
     }
 

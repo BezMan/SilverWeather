@@ -10,8 +10,8 @@
 
     <style name="ToolbarCustom" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:popupTheme">@style/Theme.AppCompat.Light</item>
-        <item name="android:background">@color/primaryColor</item>
-        <item name="android:elevation">4dp</item>
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:elevation">6dp</item>
         <item name="titleTextColor">@color/toolbar_text_color</item>
     </style>
 </resources>
