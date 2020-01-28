@@ -1,6 +1,5 @@
 package com.silver.weather.viewmodel
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.silver.weather.interfaces.IDetailDataApi
@@ -12,9 +11,7 @@ class DetailViewModel(private val mRemoteDataSource: IDetailDataApi) : ViewModel
         return mRemoteDataSource.getForecastByCity(cityName, unit)
     }
 
-    fun getForecastData(): LiveData<ArrayList<Forecast>> {
-        return mRemoteDataSource.getForecastData()
-    }
+    val observedDetailForecastList = mRemoteDataSource.getForecastData()
 
 
 }

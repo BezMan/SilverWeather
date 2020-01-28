@@ -57,7 +57,7 @@ class DetailForecastActivity : AppCompatActivity() {
     }
 
     private fun setObservers() {
-        mViewModel.getForecastData().observe(this, dataObserver)
+        mViewModel.observedDetailForecastList.observe(this, dataObserver)
     }
 
     private fun dataCallback(cityForecastList: ArrayList<Forecast>?) {

@@ -59,7 +59,7 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
     }
 
     private fun setObservers() {
-        mViewModel.getCityList().observe(this, dataObserver)
+        mViewModel.observedCityList.observe(this, dataObserver)
     }
 
     private fun dataCallback(data: ArrayList<CityObj>?) {

@@ -1,6 +1,5 @@
 package com.silver.weather.viewmodel
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.silver.weather.interfaces.IMainListDataApi
@@ -12,9 +11,7 @@ class MainListViewModel(private val mRemoteDataSource: IMainListDataApi) : ViewM
         return mRemoteDataSource.getWeatherByCity(cityName, unit)
     }
 
-    fun getCityList(): LiveData<ArrayList<CityObj>> {
-        return mRemoteDataSource.getCityList()
-    }
+    val observedCityList = mRemoteDataSource.getCityList()
 
 
 }
