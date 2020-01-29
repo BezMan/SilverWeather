@@ -1,14 +1,13 @@
 package com.silver.weather.view.activities
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.silver.weather.DInjector
 import com.silver.weather.R
 import com.silver.weather.cache.SharedPrefs
@@ -85,7 +84,7 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
 
 
     private fun configureRecyclerView() {
-        recyclerViewCities?.layoutManager = LinearLayoutManager(this)
+        recyclerViewCities?.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recyclerViewCities?.setHasFixedSize(true)
     }
 

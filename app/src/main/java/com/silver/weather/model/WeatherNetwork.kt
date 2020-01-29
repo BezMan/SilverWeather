@@ -1,8 +1,8 @@
 package com.silver.weather.model
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.silver.weather.interfaces.IDetailDataApi
 import com.silver.weather.interfaces.IMainListDataApi

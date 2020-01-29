@@ -6,13 +6,13 @@
     android:orientation="vertical"
     tools:context=".view.activities.MainListActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/actionBarChoose"
         style="@style/ToolbarCustom"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCities"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

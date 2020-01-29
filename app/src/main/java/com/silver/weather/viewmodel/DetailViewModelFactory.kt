@@ -1,7 +1,7 @@
 package com.silver.weather.viewmodel
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.silver.weather.interfaces.IDetailDataApi
 
 class DetailViewModelFactory(private val dataSource: IDetailDataApi) : ViewModelProvider.NewInstanceFactory() {

@@ -2,7 +2,6 @@ package com.silver.weather.view.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import com.silver.weather.model.Forecast
 import kotlinx.android.synthetic.main.list_item_forecast.view.*
 import java.util.*
 
-class ForecastAdapter(private var context: Context, list: ArrayList<Forecast>) : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
+class ForecastAdapter(private var context: Context, list: ArrayList<Forecast>) : androidx.recyclerview.widget.RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
 
     private val URL_BASE = "http://api.openweathermap.org/"
     private var itemList: ArrayList<Forecast> = list
@@ -45,7 +44,7 @@ class ForecastAdapter(private var context: Context, list: ArrayList<Forecast>) :
     }
 
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         var tvDate: TextView = view.tvDate
         var tvDescription: TextView = view.tvDescription
         var tvTempMax: TextView = view.tvTempMax

@@ -1,11 +1,10 @@
 package com.silver.weather.view.activities
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.silver.weather.DInjector
 import com.silver.weather.R
 import com.silver.weather.model.Forecast
@@ -76,7 +75,7 @@ class DetailForecastActivity : AppCompatActivity() {
 
 
     private fun initRecycler() {
-        val linearLayoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         detailRecyclerViewForecast?.layoutManager = linearLayoutManager
         detailRecyclerViewForecast?.setHasFixedSize(true)
         refreshAdapter()
