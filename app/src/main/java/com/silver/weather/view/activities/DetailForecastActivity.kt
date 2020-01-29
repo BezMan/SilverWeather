@@ -33,7 +33,9 @@ class DetailForecastActivity : AppCompatActivity() {
 
     private lateinit var mViewModel: DetailViewModel
 
-    private val dataObserver: Observer<ArrayList<Forecast>> = Observer { list: ArrayList<Forecast>? -> dataCallback(list) }
+    private val dataObserver: Observer<ArrayList<Forecast>> = Observer { list: ArrayList<Forecast>? ->
+        dataCallback(list)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

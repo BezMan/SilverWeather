@@ -32,7 +32,9 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
     private lateinit var storedWeatherUnit: String
     private lateinit var mViewModel: MainListViewModel
 
-    private val dataObserver: Observer<ArrayList<CityObj>> = Observer { list: ArrayList<CityObj>? -> dataCallback(list) }
+    private val dataObserver: Observer<ArrayList<CityObj>> = Observer { list: ArrayList<CityObj>? ->
+        dataCallback(list)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,11 +77,6 @@ class MainListActivity : AppCompatActivity(), CityListAdapter.ItemClickListener 
 
 
     private fun fetchAllCitiesData(unit: String?) {
-        listCityObjects.clear()
-        citiesListAdapter = CityListAdapter(this, listCityObjects)
-        citiesListAdapter.setClickListener(this)
-        recyclerViewCities?.adapter = citiesListAdapter
-
         for (cityName in listCities) {
             mViewModel.getWeatherByCity(cityName, unit)
         }
